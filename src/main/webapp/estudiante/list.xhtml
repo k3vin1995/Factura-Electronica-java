@@ -3,67 +3,82 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Estudiante</title>
     </h:head>
     <body>
         <ui:composition template="./../resources/templates/plantilla.xhtml">
             <ui:define name="content">
-                
-                      <!-- Form para aÑadir un regitro  -->
+
+                <!-- Form para aÑadir un regitro  -->
                 <h:form id="editaEstudianteForm">
                     <b:container fluid="true">
-                        <b:panel title="Estudiantes" look="primary">
-                            <b:row tooltip="La identificacion no se modifica">
+                        <b:panel title="Producto o Servicio" look="primary">
+                            <b:row>
+                                <div>
+                                    <b:column medium-screen="2">
+                                        <h:outputLabel value="Codigo" for="Codigo" />
+                                    </b:column>
+                                    <b:column medium-screen="4" tooltip="El Codigo debe ser unico">
+                                        <b:inputText placeholder="Codigo"
+                                                     id="identificacion"
+                                                     value="#{estudianteController.id}"/>
+                                    </b:column>
+                                    <b:column medium-screen="6" style-class="message">
+                                        <b:message for="Codigo"/>
+                                    </b:column>                                
+                                </div>
                                 <b:column medium-screen="2">
-                                    <h:outputLabel value="Identificacion" for="identificacion"/>
+                                    <h:outputLabel value="Tipo Servicio/Mercancia" for="Tipo"/>
                                 </b:column>
                                 <b:column medium-screen="4">
-                                    <b:inputText placeholder="Identificacion"
-                                                 id="identificacion"
-                                                 value="#{estudianteController.id}"/>
+                                    <b:selectOneMenu >
+                                        <f:selectItem itemValue="Mercancia" itemLabel="Mercancia"></f:selectItem>
+                                        <f:selectItem itemValue="Servicio" itemLabel="Servicio"></f:selectItem>
+                                    </b:selectOneMenu>
                                 </b:column>
                                 <b:column medium-screen="6" style-class="message">
-                                    <b:message for="identificacion"/>
+                                    <b:message for="Tipo"/>
                                 </b:column>
                             </b:row>
                             <b:row>
-                                <b:column medium-screen="2">
-                                    <h:outputText value="Nombre:"/>
-                                </b:column>
-                                <b:column medium-screen="4">
-                                    <b:inputText placeholder="Nombre"
-                                                 id="nombre"
-                                                 required="true"
-                                                 autocomplete="false"
-                                                 value="#{estudianteController.nombre}"/>
-                                </b:column>
-                                <b:column medium-screen="6" style-class="message">
-                                    <b:message for="nombre"/>
-                                </b:column>
+                                <div>
+                                    <b:column medium-screen="2">
+                                        <h:outputText value="Descripción: "/>
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Descripción"
+                                                     id="nombre"
+                                                     required="true"
+                                                     autocomplete="false"
+                                                     value="#{estudianteController.nombre}"/>
+                                    </b:column>
+                                    <b:column medium-screen="6" style-class="message">
+                                        <b:message for="Descripción"/>
+                                    </b:column>
+
+                                </div> 
+
+                                <div>
+                                    <b:column medium-screen="2">
+                                        <h:outputText value="Impuesto Servicio 10%"/>
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:selectOneMenu >
+                                            <f:selectItem itemValue="NO" itemLabel="NO"></f:selectItem>
+                                            <f:selectItem itemValue="SI" itemLabel="SI"></f:selectItem>
+                                        </b:selectOneMenu>
+                                    </b:column>
+                                </div>
                             </b:row>
                             <b:row>
                                 <b:column medium-screen="2">
-                                    <h:outputText value="Primer Apellido:"/>
+                                    <h:outputText value="Precio: "/>
                                 </b:column>
                                 <b:column medium-screen="4">
-                                    <b:inputText placeholder="Apellido1"
-                                                 id="apellido1"
-                                                 required="true"
-                                                 autocomplete="false"
-                                                 value="#{estudianteController.apellido1}"/>
-                                </b:column>
-                                <b:column medium-screen="6" style-class="message">
-                                    <b:message for="apellido1"/>
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column medium-screen="2">
-                                    <h:outputText value="Segundo Apellido:"/>
-                                </b:column>
-                                <b:column medium-screen="4">
-                                    <b:inputText placeholder="Apellido2"
+                                    <b:inputText placeholder="Precio"
                                                  id="apellido2"
                                                  required="true"
                                                  autocomplete="false"
@@ -72,17 +87,19 @@
                                 <b:column medium-screen="6" style-class="message">
                                     <b:message for="apellido2"/>
                                 </b:column>
-                            </b:row>
-                            <b:row>
+
                                 <b:column medium-screen="2">
-                                    <h:outputText value="Fecha de Nacimiento:"/>
+                                    <h:outputText value="Tarifa IVA:"/>
                                 </b:column>
                                 <b:column medium-screen="4">
-                                    <b:datepicker 
-                                        id="fechaNaci"
-                                        required="true"
-                                        requiredMessage="Se requiere la F. de Nacimiento"
-                                        value="#{estudianteController.fechaNaci}"/>
+                                    <b:selectOneMenu >
+                                            <f:selectItem itemValue="0" itemLabel="0% Exento"></f:selectItem>
+                                            <f:selectItem itemValue="1" itemLabel="1% Reducida"></f:selectItem>
+                                            <f:selectItem itemValue="2" itemLabel="2% Reducida"></f:selectItem>
+                                            <f:selectItem itemValue="4" itemLabel="4% Reducida"></f:selectItem>
+                                            <f:selectItem itemValue="13" itemLabel="13% General"></f:selectItem>
+                                            <f:selectItem itemValue="0" itemLabel="0% Sin Impuesto"></f:selectItem>
+                                        </b:selectOneMenu>
                                 </b:column>
                                 <b:column medium-screen="6" style-class="message">
                                     <b:message for="fechaNaci"/>
@@ -102,23 +119,20 @@
                                 <b:column medium-screen="6" style-class="message">
                                     <b:message for="fechaIngr"/>
                                 </b:column>
-                            </b:row>
-                            <b:row>
+
                                 <b:column medium-screen="2">
-                                    <h:outputLabel value="Genero" for="genero"/>
+                                    <h:outputLabel value="Tipo Servicio/Mercancia" for="Tipo"/>
                                 </b:column>
                                 <b:column medium-screen="4">
-                                    <b:radiobutton value="#{estudianteController.genero}"
-                                                   itemLabel="Masculino"
-                                                   itemValue="M"/>
-                                    <b:radiobutton value="#{estudianteController.genero}"
-                                                   itemLabel="Femenino"
-                                                   itemValue="F"/>
+                                    <b:selectOneMenu >
+                                        <f:selectItem itemValue="one" itemLabel="one"></f:selectItem>
+                                        <f:selectItem itemValue="two" itemLabel="two"></f:selectItem>
+                                    </b:selectOneMenu>
                                 </b:column>
                                 <b:column medium-screen="6" style-class="message">
-                                    <b:message for="genero"/>
+                                    <b:message for="Tipo"/>
                                 </b:column>
-                            </b:row>
+                            </b:row>       
                             <b:row>
                                 <b:column medium-screen="2"/>
                                 <b:column medium-screen="4">
@@ -129,12 +143,13 @@
                                     </b:commandButton>
                                 </b:column>
                             </b:row>
+
                         </b:panel>
                     </b:container> 
                 </h:form>
-                      
-                      
-<!--                      Tabla de Estudiantes-->
+
+
+                <!--                      Tabla de Productos y servicios -->
                 <h:form>
                     <b:dataTable value="#{estudianteController.estudiantes}"
                                  var="estudiante"
