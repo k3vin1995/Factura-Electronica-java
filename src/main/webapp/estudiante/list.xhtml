@@ -107,14 +107,13 @@
                             </b:row>
                             <b:row>
                                 <b:column medium-screen="2">
-                                    <h:outputText value="Fecha de Ingreso:"/>
+                                    <h:outputText value="Código CABYS Hacienda: "/>
                                 </b:column>
                                 <b:column medium-screen="4">
-                                    <b:datepicker 
-                                        id="fechaIngr"
-                                        required="true"
-                                        requiredMessage="Se requiere la F. de Ingreso"
-                                        value="#{estudianteController.fechaIngr}"/>
+                                     <b:selectOneMenu >
+                                        <f:selectItem itemValue="one" itemLabel="one"></f:selectItem>
+                                        <f:selectItem itemValue="two" itemLabel="two"></f:selectItem>
+                                    </b:selectOneMenu>
                                 </b:column>
                                 <b:column medium-screen="6" style-class="message">
                                     <b:message for="fechaIngr"/>
