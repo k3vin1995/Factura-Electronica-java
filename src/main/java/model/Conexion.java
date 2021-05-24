@@ -14,28 +14,42 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author User
+ * @author E1287240 proyecto
  */
 public class Conexion {
 
     private static Conexion conexion;
-    private static final String DBURL = "jdbc:derby://localhost:1527/ugeneral";
-    private static Connection conn;
+    private static final String DBURLKEVIN = "jdbc:mysql://localhost:3306/proyectodb?serverTimezone=UTC"; 
+    private static final String DBURLSEBAS = "jdbc:mysql://localhost:3306/proyectodb?zeroDateTimeBehavior=CONVERT_TO_NULL"; 
+    private static final String DBURLGABY = "jdbc:mysql://localhost:3306/proyectodb?zeroDateTimeBehavior=CONVERT_TO_NULL"; 
+    private static final String DBURLDIAZ = "jdbc:mysql://localhost:3306/proyectodb?zeroDateTimeBehavior=CONVERT_TO_NULL";
+    private static Connection conn = null;
+    String kevin = "NVpfnuNQNH23dp";
+    String sebas = "admin@123";
+    String gaby = "gaby1004211096";
+    String diaz = "27Agosto1991";
 
     private Conexion() {
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver").getDeclaredConstructor().newInstance();
-            conn = DriverManager.getConnection(DBURL, "root", "root");
-        } catch (ClassNotFoundException | SQLException | InstantiationException
-                | IllegalAccessException | NoSuchMethodException | SecurityException
-                | IllegalArgumentException
+            Class.forName("com.mysql.cj.jdbc.Driver")
+                    .getDeclaredConstructor()
+                    .newInstance();
+
+            conn = DriverManager.getConnection(DBURLKEVIN, "root",kevin );
+
+
+        } catch (ClassNotFoundException | SQLException
+                | NoSuchMethodException | SecurityException | InstantiationException
+                | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException ex) {
+
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /*Singleton Patron de Diseño*/
     public static synchronized Connection getConexion() {
-        if (conn == null) {
+        if (conexion == null) {
             conexion = new Conexion();
         }
         return conn;

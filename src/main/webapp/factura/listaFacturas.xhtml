@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Lista de Facturas</title>
+    </h:head>
+    <h:body>
+
+        <ui:composition template="./../resources/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                    <b:container fluid="true">
+                        <b:panel title="Lista de Facturas" look="primary" collapsible="false">                           
+                            <b:dataTable value="#{facturaCabeceraController.facturas}"
+                                         responsive="true"
+                                         var="facturacabecera"
+                                         print="true"
+                                         >
+                                <b:dataTableColumn value="#{facturacabecera.idFacturaCabecera}"
+                                                   label="Numero de Factura"
+                                                   width="5%"/>
+                                <b:dataTableColumn value="#{facturacabecera.nombreCliente}"
+                                                   label="Cliente"
+                                                   width="6%"/>
+                                <b:dataTableColumn value="#{facturacabecera.apellidoCliente}"
+                                                   label="Primer Apellido"
+                                                   width="5%"/>
+                                <b:dataTableColumn value="#{facturacabecera.apellido2Cliente}"
+                                                   label="Segundo Apellido"
+                                                   width="5%"/>
+                                <b:dataTableColumn value="#{facturacabecera.nombreEmisor}"
+                                                   label="Emisor"
+                                                   width="5%"/>
+                                <b:dataTableColumn value="#{facturacabecera.estado}"
+                                                   label="Estado"
+                                                   width="6%"/>
+                                <b:dataTableColumn value="#{facturacabecera.fechaFacturado}"
+                                                   label="Fecha Facturacion"
+                                                   width="6%"/>
+                                <b:dataTableColumn value="#{facturacabecera.tipoCambio}"
+                                                   label="Tipo cambio"
+                                                   width="6%"/>
+                                <b:dataTableColumn value="#{facturacabecera.totalFactura}"
+                                                   label="Total Factura"
+                                                   width="5%"/>
+                                <b:dataTableColumn value="#{facturacabecera.idTipoPago}"
+                                                   label="Tipo Pago"
+                                                   width="5%"/>
+                                <b:dataTableColumn style="text-align: center"
+                                                   label="Accion"
+                                                   width="10%">
+                                    <b:commandButton value="Editar"
+                                                     look="primary"
+                                                     icon="pencil"
+                                                     action="#{facturaCabeceraController.editaFactura(facturacabecera.idFacturaCabecera)}"/>
+                                    <b:commandButton value="Imprimir"
+                                                     look="info"
+                                                     icon="print"
+                                                     action="#{imprimeFacturaController.imprimirFacturaJasper(facturacabecera)}"/>
+                                </b:dataTableColumn>                                
+                            </b:dataTable>
+                        </b:panel>
+                    </b:container>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

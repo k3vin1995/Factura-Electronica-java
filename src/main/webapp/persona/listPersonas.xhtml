@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Lista de Persona</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./../resources/templates/plantilla.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <b:container fluid="true">                        
+                        <b:panel title="Lista de persona" look="primary" collapsible="false">
+                             <b:row>
+                                <b:column medium-screen="4">
+                                    <b:commandButton value="Añadir"
+                                                     look="success"
+                                                     action="#{personaController.insertarPersona()}"
+                                                     style="width: 33%"
+                                                     ></b:commandButton>
+                                </b:column>
+                            </b:row>
+                            <br></br>                            
+                            <b:dataTable value="#{personaController.persona}"
+                                         responsive="true"
+                                         var="persona"
+                                         excel="true"
+                                         csv="true"
+                                         pdf="true"
+                                         columnVisibility="true"
+                                         copy="true"
+                                         print="true"
+                                         >
+                                <b:dataTableColumn value="#{persona.id}"
+                                                   label="Id"
+                                                   width="5%"/>
+                                <b:dataTableColumn value="#{persona.nombre}"
+                                                   label="Nombre"
+                                                   width="15%"/>
+                                <b:dataTableColumn value="#{persona.apellido}"
+                                                   label="Primer Apellido"
+                                                   width="12%"/>
+                                <b:dataTableColumn value="#{persona.apellido2}"
+                                                   label="Segundo Apellido2"
+                                                   width="12%"/>
+                                
+                                <b:dataTableColumn value="#{persona.fechaNacimiento}"
+                                                   label="F. Nacimiento"
+                                                   width="10%"/>
+                                <b:dataTableColumn value="#{persona.telefono}"
+                                                   label="telefono"
+                                                   width="10%"
+                                                   />
+                                 <b:dataTableColumn value="#{persona.cedula}"
+                                                   label="cedula."
+                                                   width="10%"
+                                                   />
+                                <b:dataTableColumn value="#{persona.correo}"
+                                                   label="Correo"
+                                                   width="10%"/>
+                                <b:dataTableColumn value="#{persona.provincia}"
+                                                   label="provincia"
+                                                   width="10%"/>
+                                <b:dataTableColumn value="#{persona.canton}"
+                                                   label="canton"
+                                                   width="10%"/>
+                                <b:dataTableColumn value="#{persona.distrito}"
+                                                   label="distrito"
+                                                   width="10%"/>
+                                <b:dataTableColumn value="#{persona.resena}"
+                                                   label="resena"
+                                                   width="10%"/>
+                                <b:dataTableColumn value="#{persona.tipoPersona}"
+                                                   label="tipoPersona"
+                                                   width="10%"/>
+                                <b:dataTableColumn style="text-align: center"
+                                                   label="Accion"
+                                                   width="10%">
+                                    <b:commandButton value="Editar"
+                                                     icon="pencil"
+                                                     action="#{personaController.editaPersona(persona.cedula)}"/>
+                                </b:dataTableColumn>                                
+                            </b:dataTable>
+                        </b:panel>
+                    </b:container>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

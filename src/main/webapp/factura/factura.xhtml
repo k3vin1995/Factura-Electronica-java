@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Factura</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./../resources/templates/plantilla.xhtml">
+            <ui:define name="content">
+                <h:form id="facturaForm">
+                    <b:container fluid="true">
+                        <b:panel look="primary" title="Cliente">
+                            <b:row>
+                                <b:column medium-screen="1">
+                                    <h:outputLabel value="Cedula" for="cedula"/>                                    
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:inputText placeholder="101230123"
+                                                 required="true"
+                                                 mask="999999999"
+                                                 id="cedula"
+                                                 value="#{personaController.cedula}"/>
+                                </b:column>
+                                <b:column medium-screen="1" >
+                                    <b:commandButton value="Buscar"
+                                                     icon="search"
+                                                     look="success"
+                                                     onclick="ajax:personaController.unaPersona(personaController.cedula)"
+                                                     update="@form" />                            
+                                </b:column>
+                                <b:column medium-screen="1" >
+                                    <b:commandButton value="Limpiar cliente"
+                                                     iconAwesome="fa-eraser"
+                                                     look="warning"
+                                                     onclick="ajax:personaController.limpiaCliente()"
+                                                     update="@form" />                            
+                                </b:column>
+                                <b:column medium-screen="4" style-class="message">
+                                    <b:message for="cedula"/>                                    
+                                </b:column>
+                                <b:column medium-screen="1">
+                                    <h:outputLabel value="Factura Actual" for="facturaActual"/>                                    
+                                </b:column>
+                                <b:column medium-screen="1">
+                                    <b:inputText                                      
+                                        placeholder="Factura:"
+                                        id="idFactura"
+                                        readonly="true"
+                                        value="#{facturaCabeceraController.facturaCabeceraLastID()}"/>
+                                </b:column>
+                            </b:row>
+
+                        </b:panel> 
+                    </b:container>
+                    <b:container fluid="true">
+                        <b:panelGrid colSpans="6,6" size="sm">
+                            <b:panel title="Detalles del Receptor" look="primary">
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Nombre"/>
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Nombre"
+                                                     id="nombre"
+                                                     value="#{personaController.nombre}"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Primer apellido"/>
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Primer apellido"
+
+                                                     id="apellido"
+                                                     value="#{personaController.apellido}"/>
+                                    </b:column>                                   
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Segundo apellido"/>
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Segundo apellido"
+
+                                                     id="apellido2"
+                                                     value="#{personaController.apellido2}"/>
+                                    </b:column>                                 
+                                </b:row>
+                                
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Correo" />                                    
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Correo@lacrost.com"                                                    
+                                                     id="correo"                                                 
+                                                     value="#{personaController.correo}"/>
+                                    </b:column>                                
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Celular"/>                                    
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="8888-9999"                                                     
+                                                     id="celular"
+                                                     value="#{personaController.telefono}"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Provincia"/>                                    
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Provincia"                                                     
+                                                     id="provincia"
+                                                     value="#{personaController.provincia}"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Distrito"/>                                    
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Distrito"                                                     
+                                                     id="distrito"
+                                                     value="#{personaController.distrito}"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Canton"/>                                    
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Canton"                                                     
+                                                     id="canton"
+                                                     value="#{personaController.canton}"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Resena"/>                                    
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Reseña"                                                     
+                                                     id="resena"
+                                                     value="#{personaController.resena}"/>
+                                    </b:column>
+                                </b:row>
+                            </b:panel>
+
+                            <b:panel title="Detalles del Emisor" look="primary">
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="NombreEmisor"/>
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Nombre"
+                                                     id="nombreEmisor"
+                                                     value="#{usuarioController.nombre}"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Primer apellido"/>
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Primer apellido"
+
+                                                     id="apellido1Emisor"
+                                                     value="#{usuarioController.apellido}"/>
+                                    </b:column>                                   
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Segundo apellido"/>
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Segundo apellido"
+
+                                                     id="apellido2Emisor"
+                                                     value="#{usuarioController.apellido2}"/>
+                                    </b:column>                                 
+                                </b:row>
+                                
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Correo" />                                    
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="Correo@lacrost.com"                                                    
+                                                     id="correoEmisor"                                                 
+                                                     value="#{usuarioController.correo}"/>
+                                    </b:column>                                
+                                </b:row>
+                                <b:row>
+                                    <b:column medium-screen="3">
+                                        <h:outputText value="Celular"/>                                    
+                                    </b:column>
+                                    <b:column medium-screen="4">
+                                        <b:inputText placeholder="8888-9999"                                                     
+                                                     id="celularEmisor"
+                                                     value="#{usuarioController.telefono}"/>
+                                    </b:column>
+
+                                </b:row>
+                            </b:panel>
+                            <b:panel look="primary" title="Factura">
+                                <b:row>
+                                    <b:column medium-screen="6">
+                                        <b:selectOneMenu value="#{facturaCabeceraController.tipoCambio}"  readonly="true" label="Seleccione el tipo de cambio:">
+                                            <f:selectItem itemLabel="Colones" itemValue="1" />
+                                        </b:selectOneMenu>
+                                    </b:column>
+                                    <b:column medium-screen="6">
+                                        <b:selectOneMenu value="#{facturaCabeceraController.idTipoPago}"  label="Seleccione el metodo de pago">
+                                            <f:selectItem itemLabel="Contado" itemValue="1" />
+                                            <f:selectItem itemLabel="Deposito" itemValue="2" />
+                                            <f:selectItem itemLabel="Credito" itemValue="3" />
+                                        </b:selectOneMenu>
+                                    </b:column>
+                                </b:row>
+                            </b:panel>
+                            <b:panel look="primary" title="Factura">
+                                <b:row>
+                                    <b:column medium-screen="4" >                                 
+                                </b:column>
+                                    <b:column medium-screen="6">
+                                        <b:commandButton type="center" value="Generar Factura"
+                                                         id="generarFactura"
+                                                         icon-spin="true" icon="cd" icon-size="1x"
+                                                         look="success"
+                                                         action="#{detalleFacturaController.crearFactura(personaController.id ,usuarioController.idPersona, facturaCabeceraController.facturaCabeceraLastID(), facturaCabeceraController.tipoCambio, facturaCabeceraController.idTipoPago)}"
+                                                         ></b:commandButton>
+                                        
+                                    </b:column>
+                                </b:row>
+                                <br></br><br></br>
+                            </b:panel> 
+                        </b:panelGrid>
+                        <b:panelGrid colSpans="6,6" size="sm">
+                            <b:panel title="Producto / Servicio" look="primary">
+                                <b:row>
+                                    <b:column medium-screen="4">
+                                        <h:outputLabel value="Cantidad" for="Cantidad"/>                                    
+                                    </b:column>
+                                    <b:column medium-screen="2">
+                                        <b:inputText placeholder="Cantidad"                                                     
+                                                     id="CantidadProdserv"
+                                                     value="#{detalleFacturaController.cantidad}"/>
+                                    </b:column>
+                                </b:row><br></br>
+                                <b:dataTable value="#{productoController.productos}"
+                                             var="producto"
+                                             responsive="true"
+                                             columnVisibility="true"
+                                             >
+                                    <b:dataTableColumn value="#{producto.idproducto}"
+                                                       label="ID"
+                                                       width="9%"/>
+                                    <b:dataTableColumn value="#{producto.descripcion}"
+                                                       label="Descripcion"
+                                                       width="15%"/>
+                                    <b:dataTableColumn value="#{producto.precio}"
+                                                       label="Precio"
+                                                       width="19%"/>
+                                    <b:dataTableColumn value="#{producto.idProductoDescripcion}"
+                                                       label="Tipo de produ."
+                                                       width="19%"/>
+                                    <b:dataTableColumn value="#{producto.iva}"
+                                                       label="IVA"
+                                                       width="10%"/>
+                                    <b:dataTableColumn value="#{producto.unidadmedida}"
+                                                       label="Unidad de medida"
+                                                       width="10%"/>
+                                    <b:dataTableColumn style="text-align: center"
+                                                       label="Accion"
+                                                       width="10%">                                        
+                                        <b:commandButton value="Añadir a la Factura"
+                                                         id="AnadirProducto"
+                                                         look="success"
+                                                         onclick="ajax:detalleFacturaController.inserListaProducto(producto.idproducto, detalleFacturaController.cantidad, facturaCabeceraController.facturaCabeceraLastID(), producto.descripcion, producto.precio, producto.iva, producto.unidadmedida);"
+                                                         update="@form"/>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </b:panel>
+                            <b:panel title="Productos / Servicios de factura" look="primary">
+                                <b:dataTable value="#{detalleFacturaController.productosFactura()}"
+                                             var="productosFactura"
+                                             columnVisibility="true"
+                                             responsive="true"
+                                             >
+                                    <b:dataTableColumn value="#{productosFactura.idproducto}"
+                                                       label="ID"
+                                                       width="9%"/>
+                                    <b:dataTableColumn value="#{productosFactura.descripcion}"
+                                                       label="Descripcion"
+                                                       width="15%"/>
+                                    <b:dataTableColumn value="#{productosFactura.cantidad}"
+                                                       label="Cantidad"
+                                                       width="19%"/>
+                                    <b:dataTableColumn value="#{productosFactura.precio}"
+                                                       label="Precio Subtotal"
+                                                       width="19%"/>
+                                    <b:dataTableColumn value="#{productosFactura.iva}"
+                                                       label="IVA"
+                                                       width="10%"/>
+                                    <b:dataTableColumn value="#{productosFactura.unidadmedida}"
+                                                       label="Unidad de medida"
+                                                       width="10%"/>
+                                    <b:dataTableColumn style="text-align: center"
+                                                       label="Accion"
+                                                       width="10%">
+                                        <b:commandButton value="Eliminar"
+                                                         id="EliminarDeFactura"
+                                                         look="danger"
+                                                         onclick="ajax:detalleFacturaController.removeArrayProducto(productosFactura.idproducto, productosFactura.cantidad);"
+                                                         update="@form"/>
+                                    </b:dataTableColumn> 
+                                </b:dataTable>
+                            </b:panel>
+                        </b:panelGrid>
+                    </b:container>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

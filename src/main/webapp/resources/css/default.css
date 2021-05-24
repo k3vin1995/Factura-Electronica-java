@@ -13,7 +13,7 @@ h1 {
     font-weight: bold;
     margin: 0px;
     padding: 0px;
-    color: #23d200;
+    color: #D20005;
 }
 
 a:link, a:visited {
@@ -26,4 +26,8 @@ a:link:hover, a:visited:hover  {
   color: #045491;
   font-weight : bold;
   text-decoration : underline;
+}
+
+content{
+    margin-top: 10px;
 }

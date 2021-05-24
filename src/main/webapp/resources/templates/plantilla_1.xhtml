@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="default.css" library="css"/>
+        <h:outputStylesheet name="cssLayout.css" library="css"/>
+        <title>Proyecto DB</title>
+       
+    </h:head>
+<h:body>
+
+
+        <div id="top" class="top">
+            <ui:insert name="top">
+                <b:navBar class="nav" inverse="false" fluid="true" brand="Sistema" brand-href="#{request.contextPath}/faces/index.xhtml">   
+                </b:navBar>
+            </ui:insert>
+        </div>
+        <div>
+
+        <script>
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "250px";
+          document.getElementById("main").style.marginLeft = "250px";
+          document.getElementById("content").style.marginLeft = "250px";
+          document.getElementById("top").style.marginLeft = "250px";
+          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        }
+
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+          document.getElementById("main").style.marginLeft= "0";
+          document.getElementById("content").style.marginLeft = "0";
+          document.getElementById("top").style.marginLeft = "0";
+          document.body.style.backgroundColor = "white";
+        }
+        </script>  
+            <div id="content" class="left_content">
+                <ui:insert name="content">
+                    
+                </ui:insert>
+            </div>
+        </div>
+    </h:body>
+</html>

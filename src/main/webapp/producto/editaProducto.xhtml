@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Edita productos</title>
+    </h:head>
+    <h:body>
+
+        <ui:composition template="./../resources/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h:form id="editaProductoForm">
+                    <b:container fluid="true">
+                        <b:panel title="Edita Producto" look="primary" >
+                            <b:row tooltip="ID">
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="ID"
+                                                   for="ID"
+                                                   id="ID"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="ID"
+                                                 id="idproducto"
+                                                 readonly="true"
+                                                 value="#{productoController.idproducto}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="ID"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Descripcion" 
+                                                   for="Descripcion"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Descripcion"
+                                                 id="descrip"
+                                                 readonly="false"
+                                                 value="#{productoController.descripcion}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Descripcion"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="Precio:" 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="precio"
+                                                 id="precioProducto"
+                                                 required="true"
+                                                 value="#{productoController.precio}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Precio"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="ID tipo producto" 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4" tooltip="1 = Servicio // 2 = Mercancia">
+                                    <b:selectOneMenu value="#{productoController.idtipoproducto}" required="true" label="Seleccione el tipo de producto:">
+                                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                                         <f:selectItem itemLabel="Servicio" itemValue="1" />
+                                         <f:selectItem itemLabel="Mercancia" itemValue="2" />
+                                    </b:selectOneMenu>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="ID tipo producto"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="IVA" 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="IVA"
+                                                 id="montoIVA"
+                                                 required="true"
+                                                 value="#{productoController.iva}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="IVA"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="Unidad de Medida" 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText id="unimed"
+                                                  required="true"
+                                                  value="#{productoController.unidadmedida}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Unidad de Medida"/>
+                                </b:column>
+                            </b:row>
+                            
+                            <b:row>
+                                <b:column medium-screen="2"/>
+                                <b:column medium-screen="4">
+                                    <b:commandButton value="Modificar"
+                                                     look="success"
+                                                     style="width: 33%"
+                                                     action="#{productoController.updateProducto()}"
+                                                     ></b:commandButton>
+                                    <b:commandButton value="Eliminar"
+                                                     look="danger"
+                                                     style="width: 33%"
+                                                     action="#{productoController.deleteProducto()}"
+                                                     ></b:commandButton>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                    </b:container>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

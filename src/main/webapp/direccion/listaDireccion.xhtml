@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <body>
+
+        <ui:composition template="./../resources/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                    <b:container fluid="true">
+                        <b:panel title="Lista de Direcciones" look="primary" collapsible="false">
+                            <b:dataTable value="#{direccionController.direcciones}"
+                                         responsive="true"
+                                         var="direccion"
+                                         excel="true"
+                                         csv="true"
+                                         pdf="true"
+                                         columnVisibility="true"
+                                         copy="true"
+                                         print="true"
+                                         >  
+                                <b:dataTableColumn value="#{direccion.iddireccion}"
+                                                   label="ID de direccion"
+                                                   width="15%"/>
+                                <b:dataTableColumn value="#{direccion.provincia}"
+                                                   label="Provincia"
+                                                   width="19%"/>
+                                <b:dataTableColumn value="#{direccion.canton}"
+                                                   label="Canton"
+                                                   width="19%"/>
+                                <b:dataTableColumn value="#{direccion.distrito}"
+                                                   label="Distrito"
+                                                   width="10%"/>
+                                <b:dataTableColumn value="#{direccion.resena}"
+                                                   label="Resena"
+                                                   width="10%"/>
+                                <b:dataTableColumn style="text-align: center"
+                                                   label="Accion"
+                                                   width="10%">
+                                    <b:commandButton value="Editar"
+                                                     icon="pencil"
+                                                     action="#{direccionController.editaDireccion(direccion.iddireccion, direccion.provincia)}"/>
+                                </b:dataTableColumn>                                
+                            </b:dataTable>
+                        </b:panel>
+                    </b:container>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

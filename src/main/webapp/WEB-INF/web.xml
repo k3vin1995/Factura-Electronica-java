@@ -5,25 +5,13 @@
         <param-value>Development</param-value>
     </context-param>
     <context-param>
-        <param-name>BootsFaces_THEME</param-name>
-        <param-value>#{temaController.tema}</param-value>
-    </context-param>
-    <context-param>
         <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
-        <param-value>6LeMYbIZAAAAACofd-49rz48XiiXc0gGHeKIXhxe</param-value>
+        <param-value>6LdQYHsaAAAAAGgtb9n5AMzcTRk9GMWdFjyoeUGw</param-value>
     </context-param>
     <context-param>
         <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
-        <param-value>6LeMYbIZAAAAAH3EFJM8DyKqv7p4UUDQfHdYATwR</param-value>
+        <param-value>6LdQYHsaAAAAAPv8NVV229dUlkTXyBVTive1AQav</param-value>
     </context-param>
-<mime-mapping>
-    <extension>xhtml</extension>
-    <mime-type>application/xml</mime-type>
-</mime-mapping>
-<mime-mapping>
-        <extension>woff2</extension>
-        <mime-type>application/font-woff2</mime-type>
-    </mime-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

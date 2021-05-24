@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../resources/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h:form id="editaFacturaForm">
+                    <b:container fluid="true">
+                        <b:panel title="Edita Estado Factura" look="primary" >
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="ID Factura" 
+                                                   for="idfactura"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="ID Factura"
+                                                 id="idfactura"
+                                                 readonly="true"
+                                                 value="#{facturaCabeceraController.idFacturaCabecera}"/>
+                                </b:column>
+                            </b:row>
+<!--                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="ID Cliente" 
+                                                   for="idclie"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="ID Cliente"
+                                                 id="idclie"
+                                                 readonly="true"
+                                                 value="#{facturaCabeceraController.idCliente}"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="ID Emisor" 
+                                                   for="emi"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="ID Emisor"
+                                                 id="emi"
+                                                 readonly="true"
+                                                 value="#{facturaCabeceraController.idEmisor}"/>
+                                </b:column>
+                            </b:row>-->
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Estado de la factura" 
+                                                   for="status"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:selectOneMenu value="#{facturaCabeceraController.estado}" required="true" label="Seleccione el estado de la factura">
+                                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                                         <f:selectItem itemLabel="Facturado" itemValue="Facturado" />
+                                         <f:selectItem itemLabel="Espera" itemValue="Espera" />
+                                         <f:selectItem itemLabel="Anulado" itemValue="Anulado" />
+                                    </b:selectOneMenu>
+                                </b:column>
+                            </b:row>
+<!--                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Fecha Facturado" 
+                                                   for="fechaFacturado"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:datepicker required="true"                                                 
+                                                  id="fechaFacturado"
+                                                  placeholder="Año/Mes/Dia"
+                                                  value="#{facturaCabeceraController.fechaFacturado}"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Tipo cambio" 
+                                                   for="tipoCam"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Tipo cambio"
+                                                 id="tipoCam"
+                                                 readonly="true"
+                                                 value="#{facturaCabeceraController.tipoCambio}"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Total Factura" 
+                                                   for="totalFactu"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Total Factura"
+                                                 id="totalFactu"
+                                                 readonly="true"
+                                                 value="#{facturaCabeceraController.totalFactura}"/>
+                                </b:column>
+                            </b:row>-->
+<!--                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Tipo pago" 
+                                                   for="tipoPago"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Tipo pago"
+                                                 id="tipoPago"
+                                                 readonly="true"
+                                                 value="#{facturaCabeceraController.idTipoPago}"/>
+                                </b:column>
+                            </b:row>-->
+                            <b:row>
+                                <b:column medium-screen="2"/>
+                                <b:column medium-screen="4">
+                                    <b:commandButton value="Modificar Estado"
+                                                     look="success"
+                                                     style="width: 100%"
+                                                     action="#{facturaCabeceraController.updateFactura()}"
+                                                     ></b:commandButton>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                    </b:container>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

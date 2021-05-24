@@ -5,30 +5,32 @@
  */
 package model;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  *
- * @author User
+ * @author svarg
  */
 public class Prospecto {
-
-    private String cedula;
+    
+    private int id;
+    private String idProspecto;
     private String nombre;
     private String apellido1;
     private String apellido2;
     private Date fechaNacimiento;
     private Date fechaGraduacionColegio;
     private Date fechaPosibleIngreso;
-    private String correo;
+    private char correo;
     private String celular;
+    
+    public Prospecto(){
+    
+}
 
-    public Prospecto() {
-    }
-
-    public Prospecto(String cedula, String nombre, String apellido1, String apellido2, Date fechaNacimiento, Date fechaGraduacionColegio, Date fechaPosibleIngreso, String correo, String celular) {
-        this.cedula = cedula;
+    public Prospecto(int id, String idProspecto, String nombre, String apellido1, String apellido2, Date fechaNacimiento, Date fechaGraduacionColegio, Date fechaPosibleIngreso, char correo, String celular) {
+        this.id = id;
+        this.idProspecto = idProspecto;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -39,12 +41,20 @@ public class Prospecto {
         this.celular = celular;
     }
 
-    public String getCedula() {
-        return cedula;
+    public int getId() {
+        return id;
     }
 
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getIdProspecto() {
+        return idProspecto;
+    }
+
+    public void setIdProspecto(String idProspecto) {
+        this.idProspecto = idProspecto;
     }
 
     public String getNombre() {
@@ -95,11 +105,11 @@ public class Prospecto {
         this.fechaPosibleIngreso = fechaPosibleIngreso;
     }
 
-    public String getCorreo() {
+    public char getCorreo() {
         return correo;
     }
 
-    public void setCorreo(String correo) {
+    public void setCorreo(char correo) {
         this.correo = correo;
     }
 
@@ -110,24 +120,9 @@ public class Prospecto {
     public void setCelular(String celular) {
         this.celular = celular;
     }
-
-    //Metodo ToString Devuelve un JSON     
-    @Override
-    public String toString() {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        String fecha1 = format.format(this.fechaNacimiento);
-        String fecha2 = format.format(this.fechaGraduacionColegio);
-        String fecha3 = format.format(this.fechaPosibleIngreso);
-        return "{\"Prospecto\":{\n\"cedula\":\""
-                + cedula + "\",\n\"nombre\":\""
-                + nombre + "\",\n\"apellido1\":\""
-                + apellido1 + "\",\n\"apellido2\":\""
-                + apellido2 + "\",\n\"fechaNacimiento\":\""
-                + fecha1 + "\",\n\"fechaGraduacionColegio\":\""
-                + fecha2 + "\",\n\"fechaPosibleIngreso\":\""
-                + fecha3 + "\",\n\"correo\":\""
-                + correo + "\",\n\"celular\":\""
-                + celular + "\"\n}\n}";
-    }
-
+    
+    
+    
+    
+    
 }

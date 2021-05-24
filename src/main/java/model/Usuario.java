@@ -7,56 +7,58 @@ package model;
 
 /**
  *
- * @author User
+ * @author E1287240 TareaSemana03
  */
-public class Usuario {
+public class Usuario extends Persona {
 
-    private String idUsuario;
-    private String pwUsuario;
-    private String nombreUsuario;
-    private String idRol;
+    private int idusuario;
+    private String Usuario; 
+    private String contrasena;
+    private int idPersona;
 
     public Usuario() {
-
     }
 
-    public Usuario(String idUsuario, String pwUsuario, String nombreUsuario, String idRol) {
-        this.idUsuario = idUsuario;
-        this.pwUsuario = pwUsuario;
-        this.nombreUsuario = nombreUsuario;
-        this.idRol = idRol;
+    public Usuario(int idusuario, String Usuario, String contrasena, int idPersona) {
+        this.idusuario = idusuario;
+        this.Usuario = Usuario;
+        this.contrasena = contrasena;
+        this.idPersona = idPersona;
     }
 
-    public String getIdUsuario() {
-        return idUsuario;
+    public int getIdusuario() {
+        return idusuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdusuario(int idusuario) {
+        this.idusuario = idusuario;
     }
 
-    public String getPwUsuario() {
-        return pwUsuario;
+    public String getUsername() {
+        return Usuario;
     }
 
-    public void setPwUsuario(String pwUsuario) {
-        this.pwUsuario = pwUsuario;
+    public void setUsername(String Usuario) {
+        this.Usuario = Usuario;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
-    public String getIdRol() {
-        return idRol;
+    public int getIdPersona() {
+        return idPersona;
     }
 
-    public void setIdRol(String idRol) {
-        this.idRol = idRol;
+    public void setIdPersona(int idPersona) {
+        this.idPersona = idPersona;
     }
 
+    
+
+    
 }

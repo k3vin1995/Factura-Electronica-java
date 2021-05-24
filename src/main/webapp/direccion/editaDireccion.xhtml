@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:body>
+
+        <ui:composition template="./../resources/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                 <h:form id="editaDireccionForm">
+                    <b:container fluid="true">
+                        <b:panel title="Edita Direccion" look="primary" >
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="ID"
+                                                   for="iddireccion"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="ID"
+                                                 id="iddireccion"
+                                                 readonly="true"
+                                                 value="#{direccionController.iddireccion}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="iddireccion"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Provincia" 
+                                                   for="Provincia"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Provincia"
+                                                 id="prov"
+                                                 readonly="false"
+                                                 value="#{direccionController.provincia}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Provincia"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="Canton: " 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Canton"
+                                                 id="nombreCanton"
+                                                 required="true"
+                                                 value="#{direccionController.canton}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Canton"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="Distrito" 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Distrito"
+                                                 id="Distrito"
+                                                 required="true"
+                                                 value="#{direccionController.distrito}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Distrito"/>
+                                </b:column>
+                            </b:row>
+                             <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="Reseña" 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Reseña"
+                                                 id="Reseña"
+                                                 required="true"
+                                                 value="#{direccionController.resena}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Reseña"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2"/>
+                                <b:column medium-screen="4">
+                                    <b:commandButton value="Insertar"
+                                                     look="primary"
+                                                     style="width: 33%"
+                                                     action="#{direccionController.insertDireccion()}"
+                                                     ></b:commandButton>
+                                    <b:commandButton value="Modificar"
+                                                     look="success"
+                                                     style="width: 33%"
+                                                     action="#{direccionController.updateDireccion()}"
+                                                     ></b:commandButton>
+                                    <b:commandButton value="Eliminar"
+                                                     look="danger"
+                                                     style="width: 33%"
+                                                     action="#{direccionController.deleteLaptop()}"
+                                                     ></b:commandButton>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                    </b:container>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Lista de Productos</title>
+    </h:head>
+    <h:body>
+
+        <ui:composition template="./../resources/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                    <b:container fluid="true">
+                        <b:panel title="Lista de Productos" look="primary" collapsible="false">
+                            <b:row>
+                                <b:column medium-screen="4">
+                                    <b:commandButton value="Añadir"
+                                                     look="success"
+                                                     action="#{productoController.insertProducto()}"
+                                                     style="width: 33%"
+                                                     ></b:commandButton>
+                                </b:column>
+                            </b:row>
+                            <br></br>                           
+                            <b:dataTable value="#{productoController.productos}"
+                                         responsive="true"
+                                         var="producto"
+                                         excel="true"
+                                         csv="true"
+                                         pdf="true"
+                                         columnVisibility="true"
+                                         copy="true"
+                                         print="true"
+                                         >
+                                <b:dataTableColumn value="#{producto.idproducto}"
+                                                   label="ID"
+                                                   width="9%"/>
+                                <b:dataTableColumn value="#{producto.descripcion}"
+                                                   label="Descripcion"
+                                                   width="15%"/>
+                                <b:dataTableColumn value="#{producto.precio}"
+                                                   label="Precio"
+                                                   width="19%"/>
+                                <b:dataTableColumn value="#{producto.idProductoDescripcion}"
+                                                   label="ID producto (consulte en la tabla inferior)"
+                                                   width="19%"/>
+                                <b:dataTableColumn value="#{producto.iva}"
+                                                   label="IVA"
+                                                   width="10%"/>
+                                <b:dataTableColumn value="#{producto.unidadmedida}"
+                                                   label="Unidad de medida"
+                                                   width="10%"/>
+                                <b:dataTableColumn style="text-align: center"
+                                                   label="Accion"
+                                                   width="10%">
+                                    <b:commandButton value="Editar"
+                                                     icon="pencil"
+                                                     action="#{productoController.editaProducto(producto.idproducto)}"/>
+                                </b:dataTableColumn>                                
+                            </b:dataTable>
+                        </b:panel>
+                    </b:container>
+                </h:form>
+                <h:form>
+                    <b:container fluid="true" >
+                        <b:panel title="Lista Tipos de Productos" look="primary" collapsible="true" smallScreen="150">
+                            <b:dataTable value="#{tipoProductoController.tipoProductos}"
+                                         var="tipoproducto"
+                                         excel="true"
+                                         csv="true"
+                                         pdf="true"
+                                         columnVisibility="true"
+                                         copy="true"
+                                         print="true"
+                                         >
+                                <b:dataTableColumn value="#{tipoproducto.idTipoProducto}"
+                                                   label="ID"
+                                                   width="50%"/>
+                                <b:dataTableColumn value="#{tipoproducto.descripcion}"
+                                                   label="Descripcion"
+                                                   width="50%"/>                         
+                            </b:dataTable>
+                        </b:panel>
+                    </b:container>    
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

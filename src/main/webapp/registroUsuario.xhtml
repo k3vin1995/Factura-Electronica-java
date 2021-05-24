@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <title>
+            Registro
+        </title>    
+    </h:head>
+    <h:body>
+        <ui:composition template="resources/templates/plantilla_1.xhtml">
+            <ui:define name="content">
+
+                <h:form id="registroPersonaForm">
+                    <b:container fluid="true">
+                        <b:panel title="Registro" look="primary">
+                            
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Usuario" for="usuario"/>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:inputText placeholder="Usuario"
+                                                 required="true"                                                 
+                                                 id="usuario"
+                                                 value="#{usuarioController.username}"/>
+                                </b:column>
+                                <b:column medium-screen="2" style-class="message">
+                                    <b:message for="usuario"/>
+                                </b:column>
+                                <b:column medium-screen="2" >
+                                    <b:commandButton value="Limpiar Campos"
+                                                     iconAwesome="fa-eraser"
+                                                     look="warning"
+                                                     onclick="ajax:usuarioController.limpiaUsuario()"
+                                                     update="@form" />                            
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Contraseña" for="coontraseña"/>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:inputText placeholder="Contraseña"
+                                                 required="true"                                                 
+                                                 id="contrasena"
+                                                 value="#{usuarioController.contrasena}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="contrasena"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Cedula" for="cedula"/>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:inputText placeholder="1010203011"
+                                                 required="true"
+                                                 mask="999999999"
+                                                 id="cedula"
+                                                 value="#{usuarioController.cedula}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="cedula"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Nombre" for="nombre"/>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:inputText placeholder="Nombre"
+                                                 required="true"                                                 
+                                                 id="nombre"
+                                                 value="#{usuarioController.nombre}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="nombre"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Primer Apellido" for="apellido1"/>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:inputText placeholder="Primer Apellido"
+                                                 required="true"                                                 
+                                                 id="apellido1"
+                                                 value="#{usuarioController.apellido}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="apellido1"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Segundo Apellido" for="apellido2"/>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:inputText placeholder="Segundo Apellido"
+                                                 required="true"                                                 
+                                                 id="apellido2"
+                                                 value="#{usuarioController.apellido2}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="apellido2"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Fecha de Nacimiento" for="fechaNacimiento"/>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:datepicker required="true"                                                 
+                                                  id="fechaNacimiento"
+                                                  placeholder="Año/Mes/Dia"
+                                                  value="#{usuarioController.fechaNacimiento}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="fechaNacimiento"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Celular" for="celular"/>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:inputText placeholder="Celular"
+                                                 required="true"  
+                                                 mask="9999-9999"
+                                                 id="celular"
+                                                 value="#{usuarioController.telefono}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="celular"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Correo" for="correo"/>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:inputText placeholder="Correo"
+                                                 required="true"  
+                                                 mask="email"
+                                                 id="correo"
+                                                 value="#{usuarioController.correo}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="correo"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputLabel value="Provincia" 
+                                                   for="Provincia"/>
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Provincia"
+                                                 id="prov"
+                                                 readonly="false"
+                                                 value="#{usuarioController.provincia}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Provincia"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="Canton: " 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Canton"
+                                                 id="nombreCanton"
+                                                 required="true"
+                                                 value="#{usuarioController.canton}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Canton"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="Distrito" 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Distrito"
+                                                 id="Distrito"
+                                                 required="true"
+                                                 value="#{usuarioController.distrito}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Distrito"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="2">
+                                    <h:outputText value="Reseña" 
+                                                  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:inputText placeholder="Reseña"
+                                                 id="Reseña"
+                                                 required="true"
+                                                 value="#{usuarioController.resena}"/>
+                                </b:column>
+                                <b:column medium-screen="6" style-class="message">
+                                    <b:message for="Reseña"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="3">
+                                    <p:captcha label="Check"></p:captcha>
+                                </b:column>
+                                <b:column medium-screen="2">
+                                    <b:commandButton action="#{usuarioController.insertarUsuario()}"
+                                                     look="primary"
+                                                     value="Insertar"
+                                                     style="width: 33%"/>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                    </b:container>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
