@@ -35,7 +35,7 @@ public class Conexion {
                     .getDeclaredConstructor()
                     .newInstance();
 
-            conn = DriverManager.getConnection(DBURLKEVIN, "root",kevin );
+            conn = DriverManager.getConnection(DBURLKEVIN, "root",kevin);
 
 
         } catch (ClassNotFoundException | SQLException
