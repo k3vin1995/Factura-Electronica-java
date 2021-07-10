@@ -8,6 +8,7 @@ package gestion;
 import java.sql.PreparedStatement;
 import java .sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,10 +39,19 @@ public class UsuarioGestion {
     public static Usuario getUsuario(String usuario, String password) {
         Usuario user = null;
         try {
+            Statement stmt = Conexion.getConexion().createStatement();
+
+            //step4 execute query  
+            ResultSet rs = stmt.executeQuery("select * from employees");
+            
+            while (rs.next()) {
+                System.out.println(rs.getInt(1) + "  " + rs.getString(2) + "  " + rs.getString(3));
+            }
+            
             PreparedStatement sentencia = Conexion.getConexion().prepareStatement(SQL_GetUsuarioAlt);
             sentencia.setString(1, usuario);
             sentencia.setString(2, password);
-            ResultSet rs = sentencia.executeQuery();
+            //ResultSet rs = sentencia.executeQuery();
             if (rs.next()) {
                 user = new Usuario();
                 user.setIdusuario(rs.getInt(1));
