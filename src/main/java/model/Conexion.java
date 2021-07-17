@@ -32,17 +32,8 @@ public class Conexion {
 
     private Conexion() {
         /*
+            ///////// conexion a MYSQL
         try {
-            Class.forName("oracle.jdbc.OracleDriver");
-            conn = DriverManager.getConnection(DBURLGABY, "root",gaby);
-
-        } catch (Exception ex) {
-
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
-        
-          try {
             Class.forName("com.mysql.cj.jdbc.Driver")
                     .getDeclaredConstructor()
                     .newInstance();
@@ -57,6 +48,17 @@ public class Conexion {
 
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
+        
+        try {
+            Class.forName("oracle.jdbc.OracleDriver");
+            conn = DriverManager.getConnection(DBURLGABY, "root",gaby);
+
+        } catch (Exception ex) {
+
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          
     }
 
     /*Singleton Patron de Diseño*/
