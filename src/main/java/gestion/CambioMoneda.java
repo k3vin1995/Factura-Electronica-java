@@ -22,7 +22,7 @@ public class CambioMoneda {
 		String respuesta = "";
 		try {
 			respuesta = peticionHttpGet(url);
-			System.out.println("La respuesta es:\n" + respuesta);
+			System.out.println("La respuesta es:\n" + respuesta);                       
 		} catch (Exception e) {
 			// Manejar excepción
 			e.printStackTrace();
@@ -46,7 +46,7 @@ public class CambioMoneda {
 			resultado.append(linea);
 		}
 		// Cerrar el BufferedReader
-		rd.close();
+		rd.close();                 
 		// Regresar resultado, pero como cadena, no como StringBuilder
 		return resultado.toString();
 	}
