@@ -22,21 +22,38 @@ public class Conexion {
 
     private static Conexion conexion;
     private static final String DBURLKEVIN = "jdbc:oracle:thin:@localhost:1521:orcl";
-    private static final String DBURLGABY = "jdbc:mysql://localhost:3306/proyectodb?zeroDateTimeBehavior=CONVERT_TO_NULL"; 
+    private static final String DBURLGABY = "jdbc:mysql://localhost:3306/proyectodb?serverTimezone=UTC"; 
     private static final String DBURLDIAZ = "jdbc:mysql://localhost:3306/proyectodb?zeroDateTimeBehavior=CONVERT_TO_NULL";
     private static Connection conn = null;
     String kevin = "12345";
     String sebas = "admin@123";
-    String gaby = "gaby1004211096";
+    String gaby = "NVpfnuNQNH23dp";
     String diaz = "27Agosto1991";
 
     private Conexion() {
-        
+        /*
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            conn = DriverManager.getConnection(DBURLKEVIN, "HR",kevin);
+            conn = DriverManager.getConnection(DBURLGABY, "root",gaby);
 
         } catch (Exception ex) {
+
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
+        
+          try {
+            Class.forName("com.mysql.cj.jdbc.Driver")
+                    .getDeclaredConstructor()
+                    .newInstance();
+
+            conn = DriverManager.getConnection(DBURLGABY, "root",gaby );
+
+
+        } catch (ClassNotFoundException | SQLException
+                | NoSuchMethodException | SecurityException | InstantiationException
+                | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException ex) {
 
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
