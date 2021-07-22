@@ -52,7 +52,7 @@ public class Conexion {
         
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            conn = DriverManager.getConnection(DBURLGABY, "root",gaby);
+            conn = DriverManager.getConnection(DBURLKEVIN, "kevin",kevin);
 
         } catch (Exception ex) {
 

@@ -22,7 +22,7 @@ public class FacturaCabeceraGestion {
                         "INNER JOIN usuario ON facturacabecera.idemisor = usuario.idusuario " +
                         "INNER JOIN tipopago ON facturacabecera.idtipopago = tipopago.idtipopago;";
     
-    private static final String SQL_InsertFacturaCabecera= "insert into facturacabecera(idcliente,idemisor,estado,fechafacturado,tipocambio,totalfactura,iddetallefactura,idtipopago) values(?,?,?,?,?,?,?,?);";
+    //private static final String SQL_InsertFacturaCabecera= "insert into facturacabecera(idcliente,idemisor,estado,fechafacturado,tipocambio,totalfactura,iddetallefactura,idtipopago) values(?,?,?,?,?,?,?,?);";
     
     private static final String SQL_GetLastfacturaCabecera = "select max(facturacabecera.idfacturacabecera) from facturacabecera;";
     
