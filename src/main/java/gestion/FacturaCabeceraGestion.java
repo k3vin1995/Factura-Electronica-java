@@ -5,6 +5,7 @@
  */
 package gestion;
 
+import com.mysql.cj.jdbc.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +14,11 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import model.Conexion;
 import model.FacturaCabecera;
-
+import java.sql.Connection; 
+import java.sql.DriverManager; 
+import java.sql.ResultSet; 
+import java.sql.SQLException;  
+import oracle.jdbc.OracleTypes;
 
 public class FacturaCabeceraGestion {
   
@@ -72,9 +77,12 @@ public class FacturaCabeceraGestion {
    public static FacturaCabecera getUnaFactura (int idFacturaCabecera){
         FacturaCabecera factura = null;
         try {
-            PreparedStatement sentencia = Conexion.getConexion().prepareStatement(SQL_UNAFACTURA);
-            sentencia.setInt(1, idFacturaCabecera);
-            ResultSet rs = sentencia.executeQuery();
+            //PreparedStatement sentencia = Conexion.getConexion().prepareStatement(SQL_UNAFACTURA);
+            
+            CallableStatement callableStatement = (CallableStatement) Conexion.getConexion().prepareCall("begin GET_UNA_FACTURA(?); end;");
+
+            callableStatement.setInt(1, idFacturaCabecera);
+            ResultSet rs = callableStatement.executeQuery();
             while (rs != null && rs.next()) {
                 factura = new FacturaCabecera(
                         rs.getInt(1),

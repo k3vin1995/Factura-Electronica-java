@@ -5,6 +5,8 @@
  */
 package gestion;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Conexion;
 import model.Persona;
+import oracle.jdbc.OracleType;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -21,9 +25,7 @@ import model.Persona;
  */
 public class PersonaGestion {
 
-    private static final String SQL_GetPersonas = "SELECT persona.*, direccion.provincia 'provincia', direccion.canton 'canton',direccion.distrito 'distrito',"
-            + " direccion.resena 'resena' FROM persona "
-            + "INNER JOIN direccion ON persona.iddireccion = direccion.iddireccion where persona.iddireccion= persona.iddireccion;";
+    private static final String SQL_GetPersonas = "SELECT PERSONA.*, DIRECCION.PROVINCIA , DIRECCION.CANTON,DIRECCION.DISTRITO , DIRECCION.RESENA FROM PERSONA INNER JOIN DIRECCION ON PERSONA.DIRECCIONFK = DIRECCION.IDDIRECCION where PERSONA.DIRECCIONFK= PERSONA.DIRECCIONFK";
 
     private static final String SQL_InsertPersona = "SELECT persona.*, direccion.provincia 'provincia', direccion.canton 'canton',direccion.distrito 'distrito', direccion.resena 'resena' FROM persona INNER JOIN direccion ON persona.iddireccion = direccion.iddireccion where persona.cedula=?;";
 
@@ -37,13 +39,25 @@ public class PersonaGestion {
     private static final String SQL_ELIMINARPERSONACLIENTE = "DELETE FROM cliente where idpersonacliente=?;";
     private static final String SQL_ELIMINARPERSONAUSUARIO = "DELETE FROM usuario where idpersonausuario=?;";
     private static int ultimoID;
+    
 
     public static ArrayList<Persona> getPersonas() {
         ArrayList<Persona> lista = new ArrayList<>();
-
+         
+         String sql=null;
+         Connection cn = null;
+         CallableStatement cs = null;
+         
+        
         try {
-            PreparedStatement sentencia = Conexion.getConexion().prepareStatement(SQL_GetPersonas);
-            ResultSet rs = sentencia.executeQuery();
+            cn = Conexion.getConexion();
+            sql = "{call PKG_PERSONAS.LISTAR_PERSONAS(?)}";
+            cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 lista.add(new Persona(
                         rs.getInt(1),

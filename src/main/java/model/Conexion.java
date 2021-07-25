@@ -31,25 +31,8 @@ public class Conexion {
     String diaz = "27Agosto1991";
 
     private Conexion() {
-        /*
-            ///////// conexion a MYSQL
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver")
-                    .getDeclaredConstructor()
-                    .newInstance();
-
-            conn = DriverManager.getConnection(DBURLGABY, "root",gaby );
-
-
-        } catch (ClassNotFoundException | SQLException
-                | NoSuchMethodException | SecurityException | InstantiationException
-                | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException ex) {
-
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
-        
+       
+                    // Conexion a ORACLE 
         try {
             Class.forName("oracle.jdbc.OracleDriver");
             conn = DriverManager.getConnection(DBURLKEVIN, "kevin",kevin);
