@@ -5,6 +5,8 @@
  */
 package gestion;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +16,7 @@ import java.util.logging.Logger;
 import model.Conexion;
 import model.Producto;
 import model.TipoProducto;
+import oracle.jdbc.OracleTypes;
 
 
 /**
@@ -39,10 +42,18 @@ public class ProductoGestion {
 
     public static ArrayList<Producto> getProductos() {
         ArrayList<Producto> listaProdu = new ArrayList<>();
+         Connection cn = null;
+         CallableStatement cs = null;
+         
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_GETPRODUCTOS);
-            ResultSet rs = sentencia.executeQuery();
+            cn = Conexion.getConexion();
+            String sql = "{call PKG_PERSONAS.GET_PRODUCTO(?)}";
+            cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 listaProdu.add(new Producto(
                         rs.getInt(1),
@@ -65,10 +76,18 @@ public class ProductoGestion {
     
         public static ArrayList<TipoProducto> getTipoProductos() {
         ArrayList<TipoProducto> listaTipoProdu = new ArrayList<>();
+        Connection cn = null;
+         CallableStatement cs = null;
+         
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_GETTIPOSDEPRODUCTO);
-            ResultSet rs = sentencia.executeQuery();
+            cn = Conexion.getConexion();
+            String sql = "{call PKG_PERSONAS.GET_TIPO_PRODUCTO(?)}";
+            cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 listaTipoProdu.add(new TipoProducto(
                         rs.getInt(1),
@@ -86,11 +105,19 @@ public class ProductoGestion {
     
     public static Producto getProducto(int idproducto) {
         Producto producto = null;
+        Connection cn = null;
+         CallableStatement cs = null;
+         
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_TESTGETPRODUCTO);
-            sentencia.setInt(1, idproducto);
-            ResultSet rs = sentencia.executeQuery();
+            cn = Conexion.getConexion();
+            String sql = "{call PKG_PERSONAS.GET_SPECIFIC_PRODUCTO2(?,?)}";
+            cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setInt(1,idproducto);
+            cs.registerOutParameter(2,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 producto = new Producto(
                         rs.getInt(1),
@@ -112,15 +139,31 @@ public class ProductoGestion {
     }
     
     public static boolean insertProducto(Producto producto) {
+        Connection cn = null;
+        CallableStatement cs = null;
+         
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_INSERTPRODUCTO);
-            sentencia.setString(1, producto.getDescripcion());
-            sentencia.setDouble(2, producto.getPrecio());
-            sentencia.setInt(3, producto.getIdtipoproducto());
-            sentencia.setDouble(4, producto.getIva());
-            sentencia.setString(5, producto.getUnidadmedida());
-            return sentencia.executeUpdate() > 0;
+            cn = Conexion.getConexion();
+            String sql = "{call PKG_PERSONAS.INSERT_PRODUCTO(?,?,?,?,?)}";
+            cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setString(1, producto.getDescripcion());
+            cs.setDouble(2, producto.getPrecio());
+            cs.setInt(3, producto.getIdtipoproducto());
+            cs.setDouble(4, producto.getIva());
+            cs.setString(5, producto.getUnidadmedida());
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
+//        try {
+//            PreparedStatement sentencia = Conexion.getConexion()
+//                    .prepareStatement(INSERT_PRODUCTO);
+//            sentencia.setString(1, producto.getDescripcion());
+//            sentencia.setDouble(2, producto.getPrecio());
+//            sentencia.setInt(3, producto.getIdtipoproducto());
+//            sentencia.setDouble(4, producto.getIva());
+//            sentencia.setString(5, producto.getUnidadmedida());
+//            return sentencia.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(ProductoGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -129,16 +172,34 @@ public class ProductoGestion {
     }
 
     public static boolean updateProducto(Producto producto) {
+        Connection cn = null;
+        CallableStatement cs = null;
+         
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_UPDATEPRODUCTO);
-            sentencia.setString(1, producto.getDescripcion());
-            sentencia.setDouble(2, producto.getPrecio());
-            sentencia.setInt(3, producto.getIdtipoproducto());
-            sentencia.setDouble(4, producto.getIva());
-            sentencia.setString(5, producto.getUnidadmedida());
-            sentencia.setInt(6, producto.getIdproducto());
-            return sentencia.executeUpdate() > 0;
+            cn = Conexion.getConexion();
+            String sql = "{call PKG_PERSONAS.UPDATE_DIRECCION(?,?,?,?,?,?)}";
+            cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setString(1, producto.getDescripcion());
+            cs.setDouble(2, producto.getPrecio());
+            cs.setInt(3, producto.getIdtipoproducto());
+            cs.setDouble(4, producto.getIva());
+            cs.setString(5, producto.getUnidadmedida());
+            cs.setInt(6, producto.getIdproducto());
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
+            
+//        try {
+//            PreparedStatement sentencia = Conexion.getConexion()
+//                    .prepareStatement(SQL_UPDATEPRODUCTO);
+//            sentencia.setString(1, producto.getDescripcion());
+//            sentencia.setDouble(2, producto.getPrecio());
+//            sentencia.setInt(3, producto.getIdtipoproducto());
+//            sentencia.setDouble(4, producto.getIva());
+//            sentencia.setString(5, producto.getUnidadmedida());
+//            sentencia.setInt(6, producto.getIdproducto());
+//            return sentencia.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(ProductoGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -147,12 +208,25 @@ public class ProductoGestion {
     }
 
         public static boolean deleteProducto(Producto producto) {
+         Connection cn = null;
+         CallableStatement cs = null;
+         
         try {
-            
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_DELETEPRODUCTO);
-            sentencia.setInt(1, producto.getIdproducto());
-            return sentencia.executeUpdate() > 0;
+            cn = Conexion.getConexion();
+            String sql = "{call PKG_PERSONAS.DELETE_PRODUCTO(?,?)}";
+            cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setInt(1,producto.getIdproducto());
+            cs.registerOutParameter(2,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
+//        try {
+//            
+//            PreparedStatement sentencia = Conexion.getConexion()
+//                    .prepareStatement(SQL_DELETEPRODUCTO);
+//            sentencia.setInt(1, producto.getIdproducto());
+//            return sentencia.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(ProductoGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
