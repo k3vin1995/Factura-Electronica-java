@@ -47,7 +47,7 @@ public class ProductoGestion {
          
         try {
             cn = Conexion.getConexion();
-            String sql = "{call PKG_PERSONAS.GET_PRODUCTO(?)}";
+            String sql = "{call PKG_PRODUCTO_GESTION.GET_PRODUCTO(?)}";
             cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.registerOutParameter(1,OracleTypes.CURSOR);
@@ -81,7 +81,7 @@ public class ProductoGestion {
          
         try {
             cn = Conexion.getConexion();
-            String sql = "{call PKG_PERSONAS.GET_TIPO_PRODUCTO(?)}";
+            String sql = "{call PKG_PRODUCTO_GESTION.GET_TIPO_PRODUCTO(?)}";
             cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.registerOutParameter(1,OracleTypes.CURSOR);
@@ -110,14 +110,13 @@ public class ProductoGestion {
          
         try {
             cn = Conexion.getConexion();
-            String sql = "{call PKG_PERSONAS.GET_SPECIFIC_PRODUCTO2(?,?)}";
+            String sql = "{call PKG_PRODUCTO_GESTION.GET_SPECIFIC_PRODUCTO2(?,?)}";
             cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.setInt(1,idproducto);
             cs.registerOutParameter(2,OracleTypes.CURSOR);
-            cs.execute();
-            ResultSet rs;
-            rs = (ResultSet) cs.getObject(1);
+            cs.executeUpdate();
+            ResultSet rs = (ResultSet) cs.getObject(2);
             while (rs != null && rs.next()) {
                 producto = new Producto(
                         rs.getInt(1),
@@ -144,7 +143,7 @@ public class ProductoGestion {
          
         try {
             cn = Conexion.getConexion();
-            String sql = "{call PKG_PERSONAS.INSERT_PRODUCTO(?,?,?,?,?)}";
+            String sql = "{call PKG_PRODUCTO_GESTION.INSERT_PRODUCTO(?,?,?,?,?)}";
             cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.setString(1, producto.getDescripcion());
@@ -152,9 +151,8 @@ public class ProductoGestion {
             cs.setInt(3, producto.getIdtipoproducto());
             cs.setDouble(4, producto.getIva());
             cs.setString(5, producto.getUnidadmedida());
-            cs.execute();
-            ResultSet rs;
-            rs = (ResultSet) cs.getObject(1);
+            //cs.execute();
+            return cs.executeUpdate()> 0;
 //        try {
 //            PreparedStatement sentencia = Conexion.getConexion()
 //                    .prepareStatement(INSERT_PRODUCTO);
@@ -177,7 +175,7 @@ public class ProductoGestion {
          
         try {
             cn = Conexion.getConexion();
-            String sql = "{call PKG_PERSONAS.UPDATE_DIRECCION(?,?,?,?,?,?)}";
+            String sql = "{call PKG_PRODUCTO_GESTION.UPDATE_DIRECCION(?,?,?,?,?,?)}";
             cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.setString(1, producto.getDescripcion());
@@ -186,10 +184,7 @@ public class ProductoGestion {
             cs.setDouble(4, producto.getIva());
             cs.setString(5, producto.getUnidadmedida());
             cs.setInt(6, producto.getIdproducto());
-            cs.execute();
-            ResultSet rs;
-            rs = (ResultSet) cs.getObject(1);
-            
+            return cs.executeUpdate()> 0;
 //        try {
 //            PreparedStatement sentencia = Conexion.getConexion()
 //                    .prepareStatement(SQL_UPDATEPRODUCTO);
@@ -213,14 +208,12 @@ public class ProductoGestion {
          
         try {
             cn = Conexion.getConexion();
-            String sql = "{call PKG_PERSONAS.DELETE_PRODUCTO(?,?)}";
+            String sql = "{call PKG_PRODUCTO_GESTION.DELETE_PRODUCTO(?,?)}";
             cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.setInt(1,producto.getIdproducto());
             cs.registerOutParameter(2,OracleTypes.CURSOR);
-            cs.execute();
-            ResultSet rs;
-            rs = (ResultSet) cs.getObject(1);
+            return cs.executeUpdate()> 0;
 //        try {
 //            
 //            PreparedStatement sentencia = Conexion.getConexion()
