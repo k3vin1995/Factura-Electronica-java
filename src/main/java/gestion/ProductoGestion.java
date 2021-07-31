@@ -208,11 +208,10 @@ public class ProductoGestion {
          
         try {
             cn = Conexion.getConexion();
-            String sql = "{call PKG_PRODUCTO_GESTION.DELETE_PRODUCTO(?,?)}";
+            String sql = "{call PKG_PRODUCTO_GESTION.DELETE_PRODUCTO(?)}";
             cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.setInt(1,producto.getIdproducto());
-            cs.registerOutParameter(2,OracleTypes.CURSOR);
             return cs.executeUpdate()> 0;
 //        try {
 //            
