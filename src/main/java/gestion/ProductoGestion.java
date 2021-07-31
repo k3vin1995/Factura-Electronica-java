@@ -138,15 +138,6 @@ public class ProductoGestion {
             cs.setString(5, producto.getUnidadmedida());
             //cs.execute();
             return cs.executeUpdate()> 0;
-//        try {
-//            PreparedStatement sentencia = Conexion.getConexion()
-//                    .prepareStatement(INSERT_PRODUCTO);
-//            sentencia.setString(1, producto.getDescripcion());
-//            sentencia.setDouble(2, producto.getPrecio());
-//            sentencia.setInt(3, producto.getIdtipoproducto());
-//            sentencia.setDouble(4, producto.getIva());
-//            sentencia.setString(5, producto.getUnidadmedida());
-//            return sentencia.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(ProductoGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -170,16 +161,6 @@ public class ProductoGestion {
             cs.setString(5, producto.getUnidadmedida());
             cs.setInt(6, producto.getIdproducto());
             return cs.executeUpdate()> 0;
-//        try {
-//            PreparedStatement sentencia = Conexion.getConexion()
-//                    .prepareStatement(SQL_UPDATEPRODUCTO);
-//            sentencia.setString(1, producto.getDescripcion());
-//            sentencia.setDouble(2, producto.getPrecio());
-//            sentencia.setInt(3, producto.getIdtipoproducto());
-//            sentencia.setDouble(4, producto.getIva());
-//            sentencia.setString(5, producto.getUnidadmedida());
-//            sentencia.setInt(6, producto.getIdproducto());
-//            return sentencia.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(ProductoGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -198,12 +179,6 @@ public class ProductoGestion {
             //Por si quieres usar cursores
             cs.setInt(1,producto.getIdproducto());
             return cs.executeUpdate()> 0;
-//        try {
-//            
-//            PreparedStatement sentencia = Conexion.getConexion()
-//                    .prepareStatement(SQL_DELETEPRODUCTO);
-//            sentencia.setInt(1, producto.getIdproducto());
-//            return sentencia.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(ProductoGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
