@@ -25,21 +25,6 @@ import oracle.jdbc.OracleTypes;
  */
 public class ProductoGestion {
     
-    private static final String SQL_GETPRODUCTOS = "SELECT producto.*, tipoproducto.descripcion as 'Tipo producto' FROM producto " +
-                                                "INNER JOIN tipoproducto ON producto.idtipoproducto = tipoproducto.idtipoProducto where tipoproducto.idtipoProducto = producto.idtipoProducto;";
-    private static final String SQL_GETPRODUCTO = "SELECT producto.*, tipoproducto.descripcion 'Tipo producto' FROM producto " +
-                                                  "INNER JOIN tipoproducto ON producto.idproducto = tipoproducto.idtipoProducto where idproducto=?;";
-    
-    
-    private static final String SQL_GETPRODUCTOSTEST = "SELECT * FROM producto";
-    private static final String SQL_TESTGETPRODUCTO = "SELECT * FROM producto where idproducto=?; ";
-    
-    private static final String SQL_GETTIPOSDEPRODUCTO = "SELECT * FROM tipoproducto";
-    
-    private static final String SQL_INSERTPRODUCTO = "INSERT INTO producto (descripcion,precio,idtipoproducto,iva,unidadmedida) VALUES (?,?,?,?,?)";
-    private static final String SQL_UPDATEPRODUCTO = "UPDATE producto set descripcion=?,precio=?,idtipoproducto=?,iva=?,unidadmedida=? where idproducto=?";
-    private static final String SQL_DELETEPRODUCTO = "DELETE FROM producto where idproducto=?";
-
     public static ArrayList<Producto> getProductos() {
         ArrayList<Producto> listaProdu = new ArrayList<>();
          Connection cn = null;
