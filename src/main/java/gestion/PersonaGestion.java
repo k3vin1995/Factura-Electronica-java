@@ -44,14 +44,12 @@ public class PersonaGestion {
     public static ArrayList<Persona> getPersonas() {
         ArrayList<Persona> lista = new ArrayList<>();
          
-         String sql=null;
          Connection cn = null;
          CallableStatement cs = null;
          
-        
         try {
             cn = Conexion.getConexion();
-            sql = "{call PKG_PERSONAS.LISTAR_PERSONAS(?)}";
+            String sql = "{call PKG_PERSONAS.LISTAR_PERSONAS(?)}";
             cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.registerOutParameter(1,OracleTypes.CURSOR);
