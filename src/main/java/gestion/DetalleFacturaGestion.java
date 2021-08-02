@@ -6,6 +6,8 @@
 package gestion;
 
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Conexion;
 import model.DetalleFactura;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -62,9 +65,14 @@ public class DetalleFacturaGestion {
     }
     public static int getLastInsert() {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_ULTIMOIDFACTURA);
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_FACTURA_CABECERA_GESTION.GET_LAST(?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //PARA usar cursores
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 ultimoID = (rs.getInt(1));
             }

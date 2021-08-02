@@ -6,7 +6,6 @@
 package gestion;
 
 import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
@@ -18,27 +17,9 @@ import java.sql.SQLException;
 import oracle.jdbc.OracleTypes;
 
 public class FacturaCabeceraGestion {
-  
-    private static final String SQL_GetFacturaCabecera = "SELECT facturacabecera.*, persona.nombre, persona.apellido, persona.apellido2 , usuario.usuario, tipopago.descripcion FROM facturacabecera " +
-                        "INNER JOIN persona ON facturacabecera.idcliente = persona.idpersona " +
-                        "INNER JOIN usuario ON facturacabecera.idemisor = usuario.idusuario " +
-                        "INNER JOIN tipopago ON facturacabecera.idtipopago = tipopago.idtipopago;";
-    
-    //private static final String SQL_InsertFacturaCabecera= "insert into facturacabecera(idcliente,idemisor,estado,fechafacturado,tipocambio,totalfactura,iddetallefactura,idtipopago) values(?,?,?,?,?,?,?,?);";
-    
-    private static final String SQL_GetLastfacturaCabecera = "select max(facturacabecera.idfacturacabecera) from facturacabecera;";
-    
-    private static final String SQL_UNAFACTURA = "SELECT facturacabecera.*, persona.nombre, persona.apellido, persona.apellido2 , usuario.usuario, tipopago.descripcion FROM facturacabecera " +
-                        "INNER JOIN persona ON facturacabecera.idcliente = persona.idpersona " +
-                        "INNER JOIN usuario ON facturacabecera.idemisor = usuario.idusuario " +
-                        "INNER JOIN tipopago ON facturacabecera.idtipopago = tipopago.idtipopago WHERE facturacabecera.idfacturacabecera=?";
-    private static final String SQL_UPDATEFACTURA = "UPDATE facturacabecera SET  idCliente=?, idEmisor=?, estado=?, fechaFacturado=?, tipoCambio=?, totalFactura=?, idTipoPago=? WHERE idFacturaCabecera=?";
-   private static final String SQL_IMPRIMEFACTURA = "SELECT * from facturacabecera WHERE idFacturaCabecera=?";
-    
-    
+      
    private static int ultimaIDFacturaCabecera;
-    
-    
+  
     
    public static ArrayList<FacturaCabecera> getFacturas() {
         ArrayList<FacturaCabecera> lista = new ArrayList<>();
@@ -80,12 +61,15 @@ public class FacturaCabeceraGestion {
    public static FacturaCabecera getUnaFactura (int idFacturaCabecera){
         FacturaCabecera factura = null;
         try {
-            //PreparedStatement sentencia = Conexion.getConexion().prepareStatement(SQL_UNAFACTURA);
-            
-            CallableStatement callableStatement = (CallableStatement) Conexion.getConexion().prepareCall("begin GET_UNA_FACTURA(?); end;");
-
-            callableStatement.setInt(1, idFacturaCabecera);
-            ResultSet rs = callableStatement.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_FACTURA_CABECERA_GESTION.GET_UNA_FACTURA(?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setInt(1,idFacturaCabecera);
+            cs.registerOutParameter(2,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(2);
             while (rs != null && rs.next()) {
                 factura = new FacturaCabecera(
                         rs.getInt(1),
@@ -114,17 +98,19 @@ public class FacturaCabeceraGestion {
    
    public static boolean updateFactura(FacturaCabecera factura){
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_UPDATEFACTURA);
-            sentencia.setInt(8, factura.getIdFacturaCabecera());
-            sentencia.setInt(1, factura.getIdCliente());
-            sentencia.setString(2, factura.getIdEmisor());
-            sentencia.setString(3, factura.getEstado());            
-            sentencia.setObject(4, factura.getFechaFacturado());
-            sentencia.setString(5, factura.getTipoCambio());
-            sentencia.setDouble(6, factura.getTotalFactura());
-            sentencia.setString(7, factura.getIdTipoPago());            
-            return sentencia.executeUpdate() > 0;
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_FACTURA_CABECERA_GESTION.UPDATE_FACTURA(?,?,?,?,?,?,?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setInt(8, factura.getIdFacturaCabecera());
+            cs.setInt(1, factura.getIdCliente());
+            cs.setString(2, factura.getIdEmisor());
+            cs.setString(3, factura.getEstado());            
+            cs.setObject(4, factura.getFechaFacturado());
+            cs.setString(5, factura.getTipoCambio());
+            cs.setDouble(6, factura.getTotalFactura());
+            cs.setString(7, factura.getIdTipoPago());            
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(FacturaCabeceraGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -135,9 +121,14 @@ public class FacturaCabeceraGestion {
    
     public static int getLastInsert() {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_GetLastfacturaCabecera);
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_FACTURA_CABECERA_GESTION.GET_LAST(?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //PARA usar cursores
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 ultimaIDFacturaCabecera = (
                         rs.getInt(1)
@@ -154,10 +145,15 @@ public class FacturaCabeceraGestion {
     public static FacturaCabecera getImprimeFactura(int idfacturacabecera) {
         FacturaCabecera factura = null;
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_IMPRIMEFACTURA);
-            sentencia.setInt(1, idfacturacabecera);
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_FACTURA_CABECERA_GESTION.GET_IMPRIME_UNA_FACTURA(?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setInt(1,idfacturacabecera);
+            cs.registerOutParameter(2,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(2);
             while (rs != null && rs.next()) {
                 factura = new FacturaCabecera(
                         rs.getInt(1),

@@ -5,6 +5,8 @@
  */
 package gestion;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java .sql.ResultSet;
 import java.sql.SQLException;
@@ -15,25 +17,14 @@ import java.util.logging.Logger;
 import model.Conexion;
 import model.Persona;
 import model.Usuario;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
  * @author E1287240 TareaSemana03
  */
 public class UsuarioGestion {
-
-    private static final String SQL_GetUsuario = "Select * from usuario where usuario=? and contrasena=?";
-    
-    private static final String SQL_GetUsuarioAlt = "SELECT usuario.*, persona.* FROM usuario " +
-"INNER JOIN  persona ON usuario.idpersonausuario = persona.idpersona WHERE usuario.usuario=? AND usuario.contrasena=?;";
-    
-    private static final String SQL_GETALLUSERS = "Select * from usuario";
-    private static final String SQL_GetUnSoloUser = "Select * from usuario where idusuario=?";
-    private static final String SQL_GetLastPersona = "select max(persona.idpersona) from persona;";       
-    private static final String SQL_INSERTUSER =  "INSERT INTO USUARIO (usuario,contrasena,idpersonausuario) VALUES (?,?,?);";
-    private static final String SQL_UpdateUser = "UPDATE proyectodb.usuario SET idusuario= ?, usuario= ?, contrasena=?, idpersonausuario=?  WHERE idusuario = ?";
-    private static final String SQL_ELIMINARPERSONA = "DELETE FROM persona where idusuario=?";
-    
+   
     private static int ultimoIDPersona;
     
     public static Usuario getUsuario(String usuario, String password) {
@@ -44,7 +35,7 @@ public class UsuarioGestion {
             //step4 execute query
              //ResultSet rs = stmt.executeQuery("SELECT usuario.*, persona.* FROM usuario INNER JOIN  persona ON usuario.idpersonausuario = persona.idpersona WHERE usuario.usuario='kevin' AND usuario.contrasena=123");
             
-            //PreparedStatement sentencia = Conexion.getConexion().prepareStatement("SELECT usuario.*, persona.* FROM usuario INNER JOIN  persona ON usuario.idpersonausuario = persona.idpersona WHERE usuario.usuario=? AND usuario.contrasena=?;");
+            //PreparedStatement cs = Conexion.getConexion().prepareStatement("SELECT usuario.*, persona.* FROM usuario INNER JOIN  persona ON usuario.idpersonausuario = persona.idpersona WHERE usuario.usuario=? AND usuario.contrasena=?;");
             stmt.setString(1, usuario);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
@@ -81,8 +72,14 @@ public class UsuarioGestion {
         ArrayList<Usuario> lista = new ArrayList<>();
                 
         try {
-            PreparedStatement sentencia = Conexion.getConexion().prepareStatement(SQL_GETALLUSERS);
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_USUARIOS.GET_ALL_USUARIO(?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 lista.add(new Usuario(
                         rs.getInt(1),
@@ -102,9 +99,15 @@ public class UsuarioGestion {
     public static Usuario getUsuario (int username1){
         Usuario user = null;
         try {
-            PreparedStatement sentencia = Conexion.getConexion().prepareStatement(SQL_GetUnSoloUser);
-            sentencia.setInt(1, username1);
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_USUARIOS.GET_USUARIO(?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setInt(1,username1);
+            cs.registerOutParameter(2,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 user = new Usuario(
                         rs.getInt(1),
@@ -124,13 +127,14 @@ public class UsuarioGestion {
     
     public static boolean insertaUsuario(Usuario user) {
         try {
-            PersonaGestion.insertaPersonaUsuario(user);
-            PreparedStatement sentencia = Conexion.getConexion().prepareStatement(SQL_INSERTUSER);
-           
-            sentencia.setString(1, user.getUsername());
-            sentencia.setString(2, user.getContrasena());
-            sentencia.setInt(3, getLastInsert());
-            return sentencia.executeUpdate() > 0;
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_USUARIOS.INSERT_USUARIO(?,?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setString(1, user.getUsername());
+            cs.setString(2, user.getContrasena());
+            cs.setInt(3, getLastInsert());
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -140,13 +144,14 @@ public class UsuarioGestion {
     
     public static boolean updateUsuario(Usuario user){
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_UpdateUser);
-            sentencia.setInt(1, user.getIdusuario());
-            sentencia.setString(1, user.getContrasena());
-            sentencia.setString(2, user.getUsername());
-            sentencia.setInt(3, user.getIdPersona());           
-            return sentencia.executeUpdate() > 0;
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_USUARIOS.UPDATEUSER(?,?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setString(1, user.getUsername());
+            cs.setString(2, user.getContrasena());
+            cs.setInt(3, user.getIdPersona());           
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -157,10 +162,11 @@ public class UsuarioGestion {
     public static boolean deleteUsuario(Usuario user) {
         try {
             
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_ELIMINARPERSONA);
-            sentencia.setInt(1, user.getIdusuario());
-            return sentencia.executeUpdate() > 0;
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_PERSONAS.DELETE_USUARIO(?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            cs.setInt(1, user.getIdusuario());
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -170,9 +176,14 @@ public class UsuarioGestion {
     
      public static int getLastInsert() {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_GetLastPersona);
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{? call PKG_PERSONAS.GET_LAST_PERSONA()}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.registerOutParameter(1,OracleTypes.INTEGER);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 ultimoIDPersona = (
                         rs.getInt(1)
