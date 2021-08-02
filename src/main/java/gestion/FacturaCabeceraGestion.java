@@ -5,17 +5,14 @@
  */
 package gestion;
 
-import com.mysql.cj.jdbc.CallableStatement;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import model.Conexion;
 import model.FacturaCabecera;
 import java.sql.Connection; 
-import java.sql.DriverManager; 
 import java.sql.ResultSet; 
 import java.sql.SQLException;  
 import oracle.jdbc.OracleTypes;
@@ -45,10 +42,16 @@ public class FacturaCabeceraGestion {
     
    public static ArrayList<FacturaCabecera> getFacturas() {
         ArrayList<FacturaCabecera> lista = new ArrayList<>();
-                
+               
         try {
-            PreparedStatement sentencia = Conexion.getConexion().prepareStatement(SQL_GetFacturaCabecera);
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_FACTURA_CABECERA_GESTION.GET_FACTURAS(?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 lista.add(new FacturaCabecera(
                         rs.getInt(1),
@@ -128,8 +131,6 @@ public class FacturaCabeceraGestion {
         }      
         return false;
     }
-   
-   
    
    
     public static int getLastInsert() {
