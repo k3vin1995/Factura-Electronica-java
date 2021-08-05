@@ -29,14 +29,15 @@ public class UsuarioGestion {
         Usuario user = null;
         try {
             
-             PreparedStatement stmt = Conexion.getConexion().prepareStatement("SELECT usuario.*, persona.* FROM usuario INNER JOIN  persona ON usuario.idpersonausuario = persona.idpersona WHERE usuario.usuario=? AND usuario.contrasena=?");
-            //step4 execute query
-             //ResultSet rs = stmt.executeQuery("SELECT usuario.*, persona.* FROM usuario INNER JOIN  persona ON usuario.idpersonausuario = persona.idpersona WHERE usuario.usuario='kevin' AND usuario.contrasena=123");
-            
-            //PreparedStatement cs = Conexion.getConexion().prepareStatement("SELECT usuario.*, persona.* FROM usuario INNER JOIN  persona ON usuario.idpersonausuario = persona.idpersona WHERE usuario.usuario=? AND usuario.contrasena=?;");
-            stmt.setString(1, usuario);
-            stmt.setString(2, password);
-            ResultSet rs = stmt.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_USUARIOS.GET_USUARIO_PW(?,?,?)}";
+            CallableStatement cs =cn.prepareCall(sql);
+            //Por si quieres usar cursores
+            cs.setString(1,usuario);
+            cs.setString(2,password);
+            cs.registerOutParameter(3,OracleTypes.CURSOR);
+            cs.executeUpdate();
+            ResultSet rs = (ResultSet) cs.getObject(3);
             if (rs.next()) {
                 user = new Usuario();
                 user.setIdusuario(rs.getInt(1));
@@ -98,14 +99,14 @@ public class UsuarioGestion {
         Usuario user = null;
         try {
             Connection cn = Conexion.getConexion();
-            String sql = "{call PKG_USUARIOS.GET_USUARIO(?,?)}";
+            String sql = "{call PKG_USUARIOS.GET_UN_USUARIO(?,?)}";
             CallableStatement cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.setInt(1,username1);
             cs.registerOutParameter(2,OracleTypes.CURSOR);
             cs.execute();
             ResultSet rs;
-            rs = (ResultSet) cs.getObject(1);
+            rs = (ResultSet) cs.getObject(2);
             while (rs != null && rs.next()) {
                 user = new Usuario(
                         rs.getInt(1),

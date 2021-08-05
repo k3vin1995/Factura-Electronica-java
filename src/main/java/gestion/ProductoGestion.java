@@ -91,7 +91,7 @@ public class ProductoGestion {
     public static Producto getProducto(int idproducto) {
         Producto producto = null;
         Connection cn = null;
-         CallableStatement cs = null;
+        CallableStatement cs = null;
          
         try {
             cn = Conexion.getConexion();
