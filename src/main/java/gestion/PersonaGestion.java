@@ -77,7 +77,7 @@ public class PersonaGestion {
             cs.registerOutParameter(2,OracleTypes.CURSOR);
             cs.execute();
             ResultSet rs;
-            rs = (ResultSet) cs.getObject(1);
+            rs = (ResultSet) cs.getObject(2);
             while (rs != null && rs.next()) {
                 persona = new Persona(
                         rs.getInt(1),

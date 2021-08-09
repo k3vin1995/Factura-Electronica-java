@@ -5,7 +5,8 @@
  */
 package gestion;
 
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Conexion;
 import model.Direccion;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -20,13 +22,6 @@ import model.Direccion;
  */
 public class DireccionGestion {
 
-    private static final String SQL_GETDIRECCIONES = "SELECT * FROM direccion";
-    private static final String SQL_GETDIRECCION = "SELECT * FROM direccion where iddireccion=? and provincia=?";
-    private static final String SQL_INSERDIRECCION = "insert into direccion(provincia,canton,distrito,resena) VALUES (?,?,?,?)";
-    private static final String SQL_INSERDIRECCION2 = "insert into direccion(provincia,canton,distrito,resena) VALUES (?,?,?,?); select last_isert_id();";
-
-    private static final String SQL_UPDATEDIRECCION = "Update direccion set provincia=?, canton=?,distrito=?,resena=? where iddireccion=?";
-    private static final String SQL_DELETEDIRECCION = "DELETE FROM direccion where iddireccion=? and provincia=?";
     private static int iddireccionprueba = 0;
 
     public static int getIddireccionprueba() {
@@ -40,9 +35,14 @@ public class DireccionGestion {
     public static ArrayList<Direccion> getDirecciones() {
         ArrayList<Direccion> listaDire = new ArrayList<>();
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_GETDIRECCIONES);
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DIRECCION_GESTION.GET_ALL_DIRECCION(?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //PARA usar cursores
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(1);
             while (rs != null && rs.next()) {
                 listaDire.add(new Direccion(
                         rs.getInt(1),
@@ -64,11 +64,16 @@ public class DireccionGestion {
     public static Direccion getDireccion(int iddireccion, String provincia) {
         Direccion direccion = null;
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_GETDIRECCION);
-            sentencia.setInt(1, iddireccion);
-            sentencia.setString(2, provincia);
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DIRECCION_GESTION.GET_SPECIFIC_DIRECCION(?,?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //PARA usar cursores
+            cs.setInt(1, iddireccion);
+            cs.setString(2, provincia);
+            cs.registerOutParameter(3,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(3);
             while (rs != null && rs.next()) {
                 direccion = new Direccion(
                         rs.getInt(1),
@@ -89,13 +94,15 @@ public class DireccionGestion {
 
     public static boolean insertDireccion(Direccion direccion) {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_INSERDIRECCION);
-            sentencia.setString(1, direccion.getProvincia());
-            sentencia.setString(2, direccion.getCanton());
-            sentencia.setString(3, direccion.getDistrito());
-            sentencia.setString(4, direccion.getResena());
-            return sentencia.executeUpdate() > 0;
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DIRECCION_GESTION.INSERT_DIRECCION(?,?,?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //PARA usar cursores
+            cs.setString(1, direccion.getProvincia());
+            cs.setString(2, direccion.getCanton());
+            cs.setString(3, direccion.getDistrito());
+            cs.setString(4, direccion.getResena());
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(DireccionGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -105,14 +112,16 @@ public class DireccionGestion {
 
     public static boolean updateDireccion(Direccion direccion) {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_UPDATEDIRECCION);
-            sentencia.setString(1, direccion.getProvincia());
-            sentencia.setString(2, direccion.getCanton());
-            sentencia.setString(3, direccion.getDistrito());
-            sentencia.setString(4, direccion.getResena());
-            sentencia.setInt(5, direccion.getIddireccion());
-            return sentencia.executeUpdate() > 0;
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DIRECCION_GESTION.UPDATE_DIRECCION(?,?,?,?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //PARA usar cursores
+            cs.setString(1, direccion.getProvincia());
+            cs.setString(2, direccion.getCanton());
+            cs.setString(3, direccion.getDistrito());
+            cs.setString(4, direccion.getResena());
+            cs.setInt(5, direccion.getIddireccion());
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(DireccionGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -122,11 +131,13 @@ public class DireccionGestion {
 
     public static boolean deleteDireccion(Direccion direccion) {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_DELETEDIRECCION);
-            sentencia.setInt(1, direccion.getIddireccion());
-            sentencia.setString(2, direccion.getProvincia());
-            return sentencia.executeUpdate() > 0;
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DIRECCION_GESTION.DELETE_DIRECCION(?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //PARA usar cursores
+            cs.setInt(1, direccion.getIddireccion());
+            cs.setString(2, direccion.getProvincia());
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(DireccionGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
