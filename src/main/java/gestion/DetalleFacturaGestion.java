@@ -51,12 +51,13 @@ public class DetalleFacturaGestion {
     
     public static boolean insertProducto(int idProducto, double cantidad) {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_INSERTAPRODUCTO);
-            sentencia.setInt(1, idProducto);
-            sentencia.setDouble(2, cantidad);
-            sentencia.setInt(3, getLastInsert());
-            return sentencia.executeUpdate() > 0;
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DETALLE_FACTURA.INSERTA_DETALLE_FACTURA(?,?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            cs.setInt(1, idProducto);
+            cs.setDouble(2, cantidad);
+            cs.setInt(3, getLastInsert());
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(ProductoGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -66,7 +67,7 @@ public class DetalleFacturaGestion {
     public static int getLastInsert() {
         try {
             Connection cn = Conexion.getConexion();
-            String sql = "{call PKG_FACTURA_CABECERA_GESTION.GET_LAST(?)}";
+            String sql = "{call PKG_DETALLE_FACTURA.ULTIMO_INSERT(?)}";
             CallableStatement cs = cn.prepareCall(sql);
             //PARA usar cursores
             cs.registerOutParameter(1,OracleTypes.CURSOR);
@@ -85,10 +86,15 @@ public class DetalleFacturaGestion {
     public static ArrayList<DetalleFactura> getProductos() {
         ArrayList<DetalleFactura> listaProdu = new ArrayList<>();
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_GETPRODUCTOSFactura);
-            sentencia.setInt(1, getLastInsert());
-            ResultSet rs = sentencia.executeQuery();
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DETALLE_FACTURA.GET_PRODUCTOS_FACTURA(?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            //PARA usar cursores
+            cs.setInt(1, getLastInsert());
+            cs.registerOutParameter(2,OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs;
+            rs = (ResultSet) cs.getObject(2);
             while (rs != null && rs.next()) {
                 listaProdu.add(new DetalleFactura(
                         rs.getInt(1),
@@ -113,10 +119,12 @@ public class DetalleFacturaGestion {
      
     public static boolean deleteProductoFactura(int idDetalleFactura) {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_DELETEPRODUCTOFACTURA);
-            sentencia.setInt(1, idDetalleFactura);
-            return sentencia.executeUpdate() > 0;
+            
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DETALLE_FACTURA.DELETEPRODUCTOFACTURA(?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            cs.setInt(1, idDetalleFactura);
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(ProductoGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -163,19 +171,21 @@ public class DetalleFacturaGestion {
     
     public static boolean insertaDetalleProductos(DetalleFactura detalleFactura) {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_INSERTAPRODUCTO);
-            
+//            PreparedStatement cs = Conexion.getConexion()
+//                    .prepareStatement(SQL_INSERTAPRODUCTO);
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DETALLE_FACTURA.INSERTA_DETALLE_FACTURA(?,?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
             
             int tamano = listaDetalleFactura.size();
             DetalleFactura objeto = new DetalleFactura();
             for (int i = 0; i < tamano; i++) {
             objeto = listaDetalleFactura.get(i);
             
-            sentencia.setInt(1, objeto.getIdProducto());
-            sentencia.setDouble(2, objeto.getCantidad());
-            sentencia.setInt(3, objeto.getIdFactura());
-            sentencia.executeUpdate();
+            cs.setInt(1, objeto.getIdProducto());
+            cs.setDouble(2, objeto.getCantidad());
+            cs.setInt(3, objeto.getIdFactura());
+            cs.executeUpdate();
         }
             return true;       
         } catch (SQLException ex) {
@@ -189,16 +199,17 @@ public class DetalleFacturaGestion {
     
         public static boolean insertaFacturaCabecera(int id, int idEmisor, int facturaCabeceraLastID, String tipocambio, int idtipopago) {
         try {
-            PreparedStatement sentencia = Conexion.getConexion()
-                    .prepareStatement(SQL_InsertFacturaCabecera);
-            sentencia.setInt(1, id);
-            sentencia.setInt(2, idEmisor);
-            sentencia.setString(3, "Facturado");
-            sentencia.setObject(4, objDate);
-            sentencia.setString(5, "colones");
-            sentencia.setDouble(6, subtotal);
-            sentencia.setInt(7, idtipopago);
-            return sentencia.executeUpdate() > 0;
+            Connection cn = Conexion.getConexion();
+            String sql = "{call PKG_DETALLE_FACTURA.INSERTAFACTURACABECERA(?,?,?,?,?,?,?)}";
+            CallableStatement cs = cn.prepareCall(sql);
+            cs.setInt(1, id);
+            cs.setInt(2, idEmisor);
+            cs.setString(3, "Facturado");
+            cs.setObject(4, "17/07/21");  //objDate
+            cs.setInt(5, 1);
+            cs.setDouble(6, subtotal);
+            cs.setInt(7, idtipopago);
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(FacturaCabeceraGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
