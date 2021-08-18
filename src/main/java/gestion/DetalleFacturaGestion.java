@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -40,7 +42,14 @@ public class DetalleFacturaGestion {
     static ArrayList<DetalleFactura> listaDetllaProductos = new ArrayList<>();
     
     
-    private static Date objDate = new Date();
+    private static String objDate (){
+            LocalDateTime myDateObj = LocalDateTime.now();
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+
+            String formattedDate = myDateObj.format(myFormatObj);
+            
+        return formattedDate;
+    }
     //String strDateFormat = "hh: mm: ss a dd-MMM-aaaa";
     
     private static double subtotal; 
@@ -205,7 +214,7 @@ public class DetalleFacturaGestion {
             cs.setInt(1, id);
             cs.setInt(2, idEmisor);
             cs.setString(3, "Facturado");
-            cs.setObject(4, "17/07/21");  //objDate
+            cs.setObject(4, objDate());  //objDate
             cs.setInt(5, 1);
             cs.setDouble(6, subtotal);
             cs.setInt(7, idtipopago);
