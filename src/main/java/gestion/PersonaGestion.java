@@ -11,6 +11,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -146,12 +149,12 @@ public class PersonaGestion {
     }
 
     public static int getLastInsert() {
-        try {
+        try { //Direccion
             Connection cn = Conexion.getConexion();
-            String sql = "{call PKG_FACTURA_CABECERA_GESTION.GET_LAST(?)}";
+            String sql = "{? = call PKG_DIRECCION_GESTION.GET_LAST_DIRECCION()}";
             CallableStatement cs = cn.prepareCall(sql);
-            //PARA usar cursores
-            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            //Por si quieres usar cursores
+            cs.registerOutParameter(1,OracleTypes.INTEGER);
             cs.execute();
             ResultSet rs;
             rs = (ResultSet) cs.getObject(1);
@@ -253,15 +256,24 @@ public class PersonaGestion {
             cs.setString(4, persona.getTelefono());
             cs.setString(5, persona.getCorreo());
             cs.setString(6, persona.getCedula());
-            cs.setObject(7, persona.getFechaNacimiento());
+            cs.setObject(7, objDate());
             cs.setInt(8, getLastInsert());
-            cs.setString(9, "Usuario");
+            cs.setInt(9, 1);
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(DireccionGestion.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    
+    private static String objDate (){
+            LocalDateTime myDateObj = LocalDateTime.now();
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+
+            String formattedDate = myDateObj.format(myFormatObj);
+            
+        return formattedDate;
     }
 
 }

@@ -126,6 +126,7 @@ public class UsuarioGestion {
     
     public static boolean insertaUsuario(Usuario user) {
         try {
+            PersonaGestion.insertaPersonaUsuario(user);
             Connection cn = Conexion.getConexion();
             String sql = "{call PKG_USUARIOS.INSERT_USUARIO(?,?,?)}";
             CallableStatement cs = cn.prepareCall(sql);
