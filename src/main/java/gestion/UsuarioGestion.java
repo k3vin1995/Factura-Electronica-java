@@ -177,10 +177,10 @@ public class UsuarioGestion {
      public static int getLastInsert() {
         try {
             Connection cn = Conexion.getConexion();
-            String sql = "{? call PKG_PERSONAS.GET_LAST_PERSONA()}";
+            String sql = "{call PKG_PERSONAS.GET_LAST_PERSONA(?)}";
             CallableStatement cs = cn.prepareCall(sql);
-            //Por si quieres usar cursores
-            cs.registerOutParameter(1,OracleTypes.INTEGER);
+            //PARA usar cursores
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
             cs.execute();
             ResultSet rs;
             rs = (ResultSet) cs.getObject(1);

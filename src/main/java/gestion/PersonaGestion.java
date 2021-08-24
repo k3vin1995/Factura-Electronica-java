@@ -151,10 +151,10 @@ public class PersonaGestion {
     public static int getLastInsert() {
         try { //Direccion
             Connection cn = Conexion.getConexion();
-            String sql = "{? = call PKG_DIRECCION_GESTION.GET_LAST_DIRECCION()}";
+            String sql = "{call PKG_DIRECCION_GESTION.GET_LAST_DIRECCION(?)}";
             CallableStatement cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
-            cs.registerOutParameter(1,OracleTypes.INTEGER);
+            cs.registerOutParameter(1,OracleTypes.CURSOR);
             cs.execute();
             ResultSet rs;
             rs = (ResultSet) cs.getObject(1);
