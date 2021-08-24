@@ -27,16 +27,6 @@ import oracle.jdbc.OracleTypes;
  */
 public class DetalleFacturaGestion {
 
-    private static String SQL_INSERTAPRODUCTO = "INSERT INTO detallefactura (idproducto,cantidad,idFacturaFK) values(?,?,?);";
-    private static String SQL_DELETEPRODUCTOFACTURA = "DELETE  FROM proyectodb.detallefactura WHERE iddetallefactura =?;";
-    private static String SQL_ULTIMOIDFACTURA = "select max(detallefactura.idFactura) from detallefactura;";
-    private static String SQL_GETPRODUCTOSFactura = "SELECT detallefactura.*, producto.idproducto as 'idProducto', producto.descripcion as 'Descripcion',"
-            + " producto.precio * detallefactura.cantidad as 'Precio Subtotal', producto.iva as 'IVA',producto.unidadmedida as 'Medida' FROM detallefactura"
-            + " INNER JOIN producto on detallefactura.idproducto = producto.idproducto and detallefactura.idFactura = ?;";
-    
-    private static final String SQL_InsertFacturaCabecera= "insert into facturacabecera(idcliente,idemisor,estado,fechafacturado,tipocambio,totalfactura,"
-            + "idtipopago) values(?,?,?,?,?,?,?);";
-    
     private static int ultimoID;
     static ArrayList<DetalleFactura> listaDetalleFactura = new ArrayList<>();
     static ArrayList<DetalleFactura> listaDetllaProductos = new ArrayList<>();
