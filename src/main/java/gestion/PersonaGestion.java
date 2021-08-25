@@ -172,7 +172,7 @@ public class PersonaGestion {
     public static boolean updatePersona(Persona persona) {
         try {
             Connection cn = Conexion.getConexion();
-            String sql = "{call PKG_PERSONAS.UPDATEPERSONA(?,?,?,?,?,?,?,?)}";
+            String sql = "{call PKG_PERSONAS.UPDATEPERSONA(?,?,?,?,?,?,?,?,?)}";
             CallableStatement cs = cn.prepareCall(sql);
             //Por si quieres usar cursores
             cs.setString(1, persona.getNombre());
@@ -182,7 +182,8 @@ public class PersonaGestion {
             cs.setString(5, persona.getCorreo());
             cs.setString(6, persona.getCedula());
             cs.setObject(7, objDate());
-            cs.setString(8, persona.getTipoPersona());
+            cs.setInt(8, 1);
+            cs.setString(9,persona.getCedula());
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(DireccionGestion.class.getName())
