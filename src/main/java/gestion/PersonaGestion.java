@@ -119,9 +119,9 @@ public class PersonaGestion {
             cs.setString(4, persona.getTelefono());
             cs.setString(5, persona.getCorreo());
             cs.setString(6, persona.getCedula());
-            cs.setObject(7, persona.getFechaNacimiento());
+            cs.setObject(7, objDate());
             cs.setInt(8, getLastInsert());
-            cs.setString(9, "Cliente");
+            cs.setInt(9, 2);
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(DireccionGestion.class.getName())
@@ -181,7 +181,7 @@ public class PersonaGestion {
             cs.setString(4, persona.getTelefono());
             cs.setString(5, persona.getCorreo());
             cs.setString(6, persona.getCedula());
-            cs.setObject(7, persona.getFechaNacimiento());
+            cs.setObject(7, objDate());
             cs.setString(8, persona.getTipoPersona());
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
